@@ -6,50 +6,24 @@ namespace Game.Scripts.LiveObjects
 {
     public class Forklift : MonoBehaviour
     {
-        [SerializeField]
-        private GameObject _lift, _steeringWheel, _leftWheel, _rightWheel, _rearWheels;
-        [SerializeField]
-        private Vector3 _liftLowerLimit, _liftUpperLimit;
-        [SerializeField]
-        private float _speed = 5f, _liftSpeed = 1f;
-        [SerializeField]
-        private CinemachineVirtualCamera _forkliftCam;
+        [SerializeField] private GameObject _lift, _steeringWheel, _leftWheel, _rightWheel, _rearWheels;
+        [SerializeField] private Vector3 _liftLowerLimit, _liftUpperLimit;
+        [SerializeField] private float _speed = 5f, _liftSpeed = 1f;
+        [SerializeField] private CinemachineVirtualCamera _forkliftCam;
         [SerializeField]
         private GameObject _driverModel;
         private bool _inDriveMode = false;
-        [SerializeField]
-        private InteractableZone _interactableZone;
+        [SerializeField] private InteractableZone _interactableZone;
 
         public static event Action onDriveModeEntered;
         public static event Action onDriveModeExited;
 
-        private void OnEnable()
+        void OnEnable()
         {
             InteractableZone.onZoneInteractionComplete += EnterDriveMode;
         }
 
-        private void EnterDriveMode(InteractableZone zone)
-        {
-            if (_inDriveMode !=true && zone.GetZoneID() == 5) //Enter ForkLift
-            {
-                _inDriveMode = true;
-                _forkliftCam.Priority = 11;
-                onDriveModeEntered?.Invoke();
-                _driverModel.SetActive(true);
-                _interactableZone.CompleteTask(5);
-            }
-        }
-
-        private void ExitDriveMode()
-        {
-            _inDriveMode = false;
-            _forkliftCam.Priority = 9;            
-            _driverModel.SetActive(false);
-            onDriveModeExited?.Invoke();
-            
-        }
-
-        private void Update()
+        void Update()
         {
             if (_inDriveMode == true)
             {
@@ -61,7 +35,28 @@ namespace Game.Scripts.LiveObjects
 
         }
 
-        private void CalcutateMovement()
+        void EnterDriveMode(InteractableZone zone)
+        {
+            if (_inDriveMode != true && zone.GetZoneID() == 5) //Enter ForkLift
+            {
+                _inDriveMode = true;
+                _forkliftCam.Priority = 11;
+                onDriveModeEntered?.Invoke();
+                _driverModel.SetActive(true);
+                _interactableZone.CompleteTask(5);
+            }
+        }
+
+        void ExitDriveMode()
+        {
+            _inDriveMode = false;
+            _forkliftCam.Priority = 9;
+            _driverModel.SetActive(false);
+            onDriveModeExited?.Invoke();
+
+        }
+
+        void CalcutateMovement()
         {
             float h = Input.GetAxisRaw("Horizontal");
             float v = Input.GetAxisRaw("Vertical");
@@ -78,7 +73,7 @@ namespace Game.Scripts.LiveObjects
             }
         }
 
-        private void LiftControls()
+        void LiftControls()
         {
             if (Input.GetKey(KeyCode.R))
                 LiftUpRoutine();
@@ -86,7 +81,7 @@ namespace Game.Scripts.LiveObjects
                 LiftDownRoutine();
         }
 
-        private void LiftUpRoutine()
+        void LiftUpRoutine()
         {
             if (_lift.transform.localPosition.y < _liftUpperLimit.y)
             {
@@ -98,7 +93,7 @@ namespace Game.Scripts.LiveObjects
                 _lift.transform.localPosition = _liftUpperLimit;
         }
 
-        private void LiftDownRoutine()
+        void LiftDownRoutine()
         {
             if (_lift.transform.localPosition.y > _liftLowerLimit.y)
             {
@@ -110,10 +105,9 @@ namespace Game.Scripts.LiveObjects
                 _lift.transform.localPosition = _liftLowerLimit;
         }
 
-        private void OnDisable()
+        void OnDisable()
         {
             InteractableZone.onZoneInteractionComplete -= EnterDriveMode;
         }
-
     }
 }

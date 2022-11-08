@@ -1,43 +1,52 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Game.Scripts.LiveObjects;
 using Cinemachine;
+using UnityEngine.InputSystem;
 
 namespace Game.Scripts.Player
 {
     [RequireComponent(typeof(CharacterController))]
     public class Player : MonoBehaviour
     {
+        [SerializeField] private float _moveSpeed = 5.0f;
+        [SerializeField] private float _rotSpeed = 20f;
+
+        private bool _playerGrounded;
+        private bool _canMove = true;
+
+        private PlayerInputActions _playerInputActions;
         private CharacterController _controller;
         private Animator _anim;
-        [SerializeField]
-        private float _speed = 5.0f;
-        private bool _playerGrounded;
-        [SerializeField]
-        private Detonator _detonator;
-        private bool _canMove = true;
-        [SerializeField]
-        private CinemachineVirtualCamera _followCam;
-        [SerializeField]
-        private GameObject _model;
+
+        [SerializeField] private Detonator _detonator;
+        [SerializeField] private CinemachineVirtualCamera _followCam;
+        [SerializeField] private GameObject _model;
 
 
-        private void OnEnable()
+
+        void OnEnable()
         {
+            // 1. Get a reference to Input Action Asset
+            _playerInputActions = new PlayerInputActions();
+
+            // 2. Enable Action Map
+            _playerInputActions.Player.Enable();
+
+            // Subscribing to delegate events
             InteractableZone.onZoneInteractionComplete += InteractableZone_onZoneInteractionComplete;
             Laptop.onHackComplete += ReleasePlayerControl;
             Laptop.onHackEnded += ReturnPlayerControl;
             Forklift.onDriveModeEntered += ReleasePlayerControl;
-            Forklift.onDriveModeExited += ReturnPlayerControl;
             Forklift.onDriveModeEntered += HidePlayer;
+            Forklift.onDriveModeExited += ReturnPlayerControl;
             Drone.OnEnterFlightMode += ReleasePlayerControl;
             Drone.onExitFlightmode += ReturnPlayerControl;
         } 
 
-        private void Start()
+        void Start()
         {
             _controller = GetComponent<CharacterController>();
+            _playerInputActions.Player.Movement.performed += MovementPerformed;
 
             if (_controller == null)
                 Debug.LogError("No Character Controller Present");
@@ -48,40 +57,49 @@ namespace Game.Scripts.Player
                 Debug.Log("Failed to connect the Animator");
         }
 
-        private void Update()
+        void Update()
         {
             if (_canMove == true)
-                CalcutateMovement();
-
+                CalculateMovement();
         }
 
-        private void CalcutateMovement()
+        void CalculateMovement()
         {
             _playerGrounded = _controller.isGrounded;
-            float h = Input.GetAxisRaw("Horizontal");
-            float v = Input.GetAxisRaw("Vertical");
+            //float h = Input.GetAxisRaw("Horizontal");
+            //float v = Input.GetAxisRaw("Vertical");
 
-            transform.Rotate(transform.up, h);
+            // Storing the Vector ReadValues into a new variable
+            Vector2 _playerInput = _playerInputActions.Player.Movement.ReadValue<Vector2>();
+            // Moving player using Vector2 above on the X and Z-axis's. Using the Vector2 Y as the Z-axis
+            // Allows for movement forward, backwards, left and right
+            transform.Translate(new Vector3(_playerInput.x, 0, _playerInput.y) * Time.deltaTime * _moveSpeed);
+            // Rotate the character using the Y-axis. 
+            transform.Rotate(transform.up, _playerInput.x);
 
-            var direction = transform.forward * v;
-            var velocity = direction * _speed;
-
+            Vector3 direction = transform.forward * _playerInput.y;
+            Vector3 velocity = direction * _moveSpeed;
 
             _anim.SetFloat("Speed", Mathf.Abs(velocity.magnitude));
 
-
+            // Jump
             if (_playerGrounded)
                 velocity.y = 0f;
+
             if (!_playerGrounded)
             {
                 velocity.y += -20f * Time.deltaTime;
             }
             
             _controller.Move(velocity * Time.deltaTime);                      
-
         }
 
-        private void InteractableZone_onZoneInteractionComplete(InteractableZone zone)
+        void MovementPerformed(InputAction.CallbackContext context)
+        {
+            Debug.Log("Moving: " + context.ReadValue<Vector2>());
+        }
+
+        void InteractableZone_onZoneInteractionComplete(InteractableZone zone)
         {
             switch(zone.GetZoneID())
             {
@@ -94,41 +112,41 @@ namespace Game.Scripts.Player
             }
         }
 
-        private void ReleasePlayerControl()
+        void ReleasePlayerControl()
         {
             _canMove = false;
             _followCam.Priority = 9;
         }
 
-        private void ReturnPlayerControl()
+        void ReturnPlayerControl()
         {
             _model.SetActive(true);
             _canMove = true;
             _followCam.Priority = 10;
         }
 
-        private void HidePlayer()
+        void HidePlayer()
         {
             _model.SetActive(false);
         }
                
-        private void TriggerExplosive()
+        void TriggerExplosive()
         {
             _detonator.TriggerExplosion();
         }
 
-        private void OnDisable()
+        void OnDisable()
         {
+            // Unsubscribing to delegate events
             InteractableZone.onZoneInteractionComplete -= InteractableZone_onZoneInteractionComplete;
             Laptop.onHackComplete -= ReleasePlayerControl;
             Laptop.onHackEnded -= ReturnPlayerControl;
             Forklift.onDriveModeEntered -= ReleasePlayerControl;
-            Forklift.onDriveModeExited -= ReturnPlayerControl;
             Forklift.onDriveModeEntered -= HidePlayer;
+            Forklift.onDriveModeExited -= ReturnPlayerControl;
             Drone.OnEnterFlightMode -= ReleasePlayerControl;
             Drone.onExitFlightmode -= ReturnPlayerControl;
         }
-
     }
 }
 
