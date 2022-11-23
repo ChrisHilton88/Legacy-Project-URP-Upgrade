@@ -8,10 +8,12 @@ namespace Game.Scripts.LiveObjects
 {
     public class Drone : MonoBehaviour
     {
-        private enum Tilt
-        {
-            NoTilt, Forward, Back, Left, Right
-        }
+        //private enum Tilt
+        //{
+        //    NoTilt, Forward, Back, Left, Right
+        //}
+
+        private int _tiltRotation = 30;
 
         private float _speed = 5f;
 
@@ -35,29 +37,7 @@ namespace Game.Scripts.LiveObjects
             _playerInputActions = new PlayerInputActions();
             InteractableZone.onZoneInteractionComplete += EnterFlightMode;
             _playerInputActions.Drone.Enable();
-            _playerInputActions.Drone.Thrusters.performed += ThrustersPerformed;
             _playerInputActions.Drone.ExitFlightMode.started += ExitFlightModeStarted;
-        }
-
-        void ThrustersPerformed(InputAction.CallbackContext context)
-        {
-            if (_inFlightMode)
-            {
-                float value = context.ReadValue<float>();
-
-                if (value < 0)
-                {
-                    Debug.Log("Test");
-                    _rigidbody.AddForce(-transform.up * _speed, ForceMode.Acceleration);
-                }
-                else if (value > 0)
-                {
-                    _rigidbody.AddForce(transform.up * _speed, ForceMode.Acceleration);
-                }
-                else
-                    return;
-            }
-
         }
 
         void ExitFlightModeStarted(InputAction.CallbackContext context)
@@ -111,10 +91,13 @@ namespace Game.Scripts.LiveObjects
 
         void FixedUpdate()
         {
-            // Running at the start of the game and constantly keeping the drone on the ground
-            _rigidbody.AddForce(transform.up * (9.81f), ForceMode.Acceleration);
+
             if (_inFlightMode)
+            {
+                // Can't understand what this was doing outside inFlightMode - Negating gravity? 
+                _rigidbody.AddForce(transform.up * (9.81f), ForceMode.Acceleration);
                 CalculateMovementFixedUpdate();
+            }
         }
 
         // Move Left and Right
@@ -137,7 +120,6 @@ namespace Game.Scripts.LiveObjects
         // Move Up and Down
         void CalculateMovementFixedUpdate()
         {
-            Debug.Log("1D Axis value: " + _playerInputActions.Drone.Thrusters.ReadValue<float>());
             float _moveYAxis = _playerInputActions.Drone.Thrusters.ReadValue<float>();
             _rigidbody.AddForce(new Vector3(0, _moveYAxis, 0) * _speed, ForceMode.Acceleration);
         }
@@ -146,7 +128,7 @@ namespace Game.Scripts.LiveObjects
         void CalculateTilt()
         {
             Vector2 _tiltDirection = _playerInputActions.Drone.Movement.ReadValue<Vector2>();
-            transform.rotation = Quaternion.Euler(_tiltDirection.y * 30f, transform.localRotation.eulerAngles.y, _tiltDirection.x * 30f);
+            transform.rotation = Quaternion.Euler(_tiltDirection.y * _tiltRotation, transform.localRotation.eulerAngles.y, _tiltDirection.x * _tiltRotation);
 
 
             //if (Input.GetKey(KeyCode.A)) 
