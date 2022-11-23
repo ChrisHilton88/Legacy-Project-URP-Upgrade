@@ -3,9 +3,10 @@ using UnityEngine.InputSystem;
 
 namespace Game.Scripts.LiveObjects
 {
+    // This is more like an Action Map Manager
     public class InputManager : MonoBehaviour
     {
-        PlayerInputActions _playerInputActions;
+        private PlayerInputActions _playerInputActions;
 
 
         void OnEnable()
@@ -14,13 +15,11 @@ namespace Game.Scripts.LiveObjects
             _playerInputActions.Player.Enable();
             _playerInputActions.Forklift.Disable();
             _playerInputActions.Drone.Disable();
+
         }
 
-        // Don't use Update() for input in NIS
-        // Don't use wasPressedThisFrame etc as that is designed for prototyping.
 
-
-        void EnablePlayerActionMap()
+        public void EnablePlayerActionMap()
         {
             _playerInputActions.Player.Enable();
             _playerInputActions.Drone.Disable();
@@ -34,11 +33,15 @@ namespace Game.Scripts.LiveObjects
             _playerInputActions.Drone.Disable();
         }
 
-        void EnableDroneActionMap()
+        public void EnableDroneActionMap()
         {
-            _playerInputActions.Player.Disable();
-            _playerInputActions.Forklift.Disable();
-            _playerInputActions.Drone.Enable();
+            if (_playerInputActions.Player.enabled)
+            {
+                Debug.Log("Enabled Drone Action Map from InputManager");
+                _playerInputActions.Player.Disable();
+                _playerInputActions.Forklift.Disable();
+                _playerInputActions.Drone.Enable();
+            }
         }
 
         void OnDisable()

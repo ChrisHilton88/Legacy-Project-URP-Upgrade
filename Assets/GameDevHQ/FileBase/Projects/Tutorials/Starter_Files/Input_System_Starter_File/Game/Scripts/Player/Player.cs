@@ -59,7 +59,6 @@ namespace Game.Scripts.Player
         {
             _playerGrounded = _controller.isGrounded;
 
-            // Check Player is enabled
             Vector2 _playerInput = _playerInputActions.Player.Movement.ReadValue<Vector2>();
 
             transform.Rotate(transform.up, _playerInput.x);
@@ -69,7 +68,6 @@ namespace Game.Scripts.Player
 
             _anim.SetFloat("Speed", Mathf.Abs(velocity.magnitude));
 
-            // Stays on the ground
             if (_playerGrounded)
                 velocity.y = 0f;
 
