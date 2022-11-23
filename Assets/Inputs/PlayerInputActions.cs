@@ -314,8 +314,133 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         {
             ""name"": ""Forklift"",
             ""id"": ""05600a73-686e-4caf-98af-8ecbcad83d4e"",
-            ""actions"": [],
-            ""bindings"": []
+            ""actions"": [
+                {
+                    ""name"": ""Movement"",
+                    ""type"": ""Value"",
+                    ""id"": ""1d2c2831-acf0-4840-bd95-f18be88b8dcc"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Exit Forklift Mode"",
+                    ""type"": ""Button"",
+                    ""id"": ""17a5c1fb-5eba-4c3f-ae1f-1fd448032c7a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""Fork Movement"",
+                    ""type"": ""Button"",
+                    ""id"": ""92e19a24-5526-4b14-a4c2-138fb97ed3d5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": ""2D Vector"",
+                    ""id"": ""3458f73e-f484-4209-bb6f-df8b0edbdc81"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""a000e1b5-bd62-42a9-a75f-9b3dce4dc50b"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""8aa5f2d0-3ed9-4874-b299-89fa66b5c19c"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""902c32ea-8c36-4416-ab3b-ba20679a5570"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""51448c4c-33a8-4ecb-b21c-aa662da519f3"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a0ba0318-8bc2-400b-804e-33c5099a2bc2"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Exit Forklift Mode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""fa469646-d2db-4f33-ad61-c022aa7e407a"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": ""Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fork Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""cc4c58a3-62ff-4b0e-b32d-789a4cf84a90"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fork Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""8eb43eea-6e36-432b-9644-74f44e5e7866"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Fork Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                }
+            ]
         }
     ],
     ""controlSchemes"": []
@@ -335,6 +460,9 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         m_Drone_Movement = m_Drone.FindAction("Movement", throwIfNotFound: true);
         // Forklift
         m_Forklift = asset.FindActionMap("Forklift", throwIfNotFound: true);
+        m_Forklift_Movement = m_Forklift.FindAction("Movement", throwIfNotFound: true);
+        m_Forklift_ExitForkliftMode = m_Forklift.FindAction("Exit Forklift Mode", throwIfNotFound: true);
+        m_Forklift_ForkMovement = m_Forklift.FindAction("Fork Movement", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -506,10 +634,16 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     // Forklift
     private readonly InputActionMap m_Forklift;
     private IForkliftActions m_ForkliftActionsCallbackInterface;
+    private readonly InputAction m_Forklift_Movement;
+    private readonly InputAction m_Forklift_ExitForkliftMode;
+    private readonly InputAction m_Forklift_ForkMovement;
     public struct ForkliftActions
     {
         private @PlayerInputActions m_Wrapper;
         public ForkliftActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Movement => m_Wrapper.m_Forklift_Movement;
+        public InputAction @ExitForkliftMode => m_Wrapper.m_Forklift_ExitForkliftMode;
+        public InputAction @ForkMovement => m_Wrapper.m_Forklift_ForkMovement;
         public InputActionMap Get() { return m_Wrapper.m_Forklift; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -519,10 +653,28 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_ForkliftActionsCallbackInterface != null)
             {
+                @Movement.started -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnMovement;
+                @Movement.performed -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnMovement;
+                @Movement.canceled -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnMovement;
+                @ExitForkliftMode.started -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnExitForkliftMode;
+                @ExitForkliftMode.performed -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnExitForkliftMode;
+                @ExitForkliftMode.canceled -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnExitForkliftMode;
+                @ForkMovement.started -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnForkMovement;
+                @ForkMovement.performed -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnForkMovement;
+                @ForkMovement.canceled -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnForkMovement;
             }
             m_Wrapper.m_ForkliftActionsCallbackInterface = instance;
             if (instance != null)
             {
+                @Movement.started += instance.OnMovement;
+                @Movement.performed += instance.OnMovement;
+                @Movement.canceled += instance.OnMovement;
+                @ExitForkliftMode.started += instance.OnExitForkliftMode;
+                @ExitForkliftMode.performed += instance.OnExitForkliftMode;
+                @ExitForkliftMode.canceled += instance.OnExitForkliftMode;
+                @ForkMovement.started += instance.OnForkMovement;
+                @ForkMovement.performed += instance.OnForkMovement;
+                @ForkMovement.canceled += instance.OnForkMovement;
             }
         }
     }
@@ -544,5 +696,8 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     }
     public interface IForkliftActions
     {
+        void OnMovement(InputAction.CallbackContext context);
+        void OnExitForkliftMode(InputAction.CallbackContext context);
+        void OnForkMovement(InputAction.CallbackContext context);
     }
 }
