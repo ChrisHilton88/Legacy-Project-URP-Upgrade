@@ -1,59 +1,59 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Cinemachine;
+using UnityEngine.InputSystem;
 
 namespace Game.Scripts.LiveObjects
 {
     public class Laptop : MonoBehaviour
     {
-        [SerializeField]
-        private Slider _progressBar;
-        [SerializeField]
-        private int _hackTime = 5;
-        private bool _hacked = false;
-        [SerializeField]
-        private CinemachineVirtualCamera[] _cameras;
         private int _activeCamera = 0;
-        [SerializeField]
-        private InteractableZone _interactableZone;
+        [SerializeField] private int _hackTime = 5;
+
+        [SerializeField] private bool _hacked = false;
+
+        [SerializeField] private Slider _progressBar;
+        [SerializeField] private CinemachineVirtualCamera[] _cameras;
+        [SerializeField] private InteractableZone _interactableZone;
+
+        PlayerInputActions _playerInputActions;
 
         public static event Action onHackComplete;
         public static event Action onHackEnded;
 
-        private void OnEnable()
+
+        void OnEnable()
         {
+            _playerInputActions = new PlayerInputActions();
+            _playerInputActions.Player.Enable();
             InteractableZone.onHoldStarted += InteractableZone_onHoldStarted;
             InteractableZone.onHoldEnded += InteractableZone_onHoldEnded;
+            _playerInputActions.Player.SwitchCameras.started += SwitchCameras_started;
+            _playerInputActions.Player.ExitCameras.started += ExitCameras_started;
         }
 
-        private void Update()
+        void SwitchCameras_started(InputAction.CallbackContext context)
         {
-            if (_hacked == true)
+            if(_hacked == true)
             {
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    var previous = _activeCamera;
-                    _activeCamera++;
+                var previous = _activeCamera;
+                _activeCamera++;
 
+                if (_activeCamera >= _cameras.Length)
+                    _activeCamera = 0;
 
-                    if (_activeCamera >= _cameras.Length)
-                        _activeCamera = 0;
-
-
-                    _cameras[_activeCamera].Priority = 11;
-                    _cameras[previous].Priority = 9;
-                }
-
-                if (Input.GetKeyDown(KeyCode.Escape))
-                {
-                    _hacked = false;
-                    onHackEnded?.Invoke();
-                    ResetCameras();
-                }
+                _cameras[_activeCamera].Priority = 11;
+                _cameras[previous].Priority = 9;
             }
+        }
+
+        void ExitCameras_started(InputAction.CallbackContext context)
+        {
+            _hacked = false;
+            onHackEnded?.Invoke();
+            ResetCameras();
         }
 
         void ResetCameras()
@@ -64,7 +64,7 @@ namespace Game.Scripts.LiveObjects
             }
         }
 
-        private void InteractableZone_onHoldStarted(int zoneID)
+        void InteractableZone_onHoldStarted(int zoneID)
         {
             if (zoneID == 3 && _hacked == false) //Hacking terminal
             {
@@ -74,7 +74,7 @@ namespace Game.Scripts.LiveObjects
             }
         }
 
-        private void InteractableZone_onHoldEnded(int zoneID)
+        void InteractableZone_onHoldEnded(int zoneID)
         {
             if (zoneID == 3) //Hacking terminal
             {
@@ -88,7 +88,6 @@ namespace Game.Scripts.LiveObjects
             }
         }
 
-        
         IEnumerator HackingRoutine()
         {
             while (_progressBar.value < 1)
@@ -108,12 +107,14 @@ namespace Game.Scripts.LiveObjects
             _cameras[0].Priority = 11;
         }
         
-        private void OnDisable()
+        void OnDisable()
         {
             InteractableZone.onHoldStarted -= InteractableZone_onHoldStarted;
             InteractableZone.onHoldEnded -= InteractableZone_onHoldEnded;
+            _playerInputActions.Player.SwitchCameras.started -= SwitchCameras_started;
+            _playerInputActions.Player.ExitCameras.started -= ExitCameras_started;
+            _playerInputActions.Player.Disable();
         }
     }
-
 }
 

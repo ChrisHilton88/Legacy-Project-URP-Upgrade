@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 namespace Game.Scripts.UI
@@ -21,14 +19,12 @@ namespace Game.Scripts.UI
         }
         #endregion
 
-        [SerializeField]
-        private Text _interactableZone;
-        [SerializeField]
-        private Image _inventoryDisplay;
-        [SerializeField]
-        private RawImage _droneCamView;
+        [SerializeField] private Text _interactableZone;
+        [SerializeField] private Image _inventoryDisplay;
+        [SerializeField] private RawImage _droneCamView;
 
-        private void Awake()
+
+        void Awake()
         {
             _instance = this;
         }

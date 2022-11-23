@@ -6,13 +6,15 @@ namespace Game.Scripts.LiveObjects
 {
     public class Forklift : MonoBehaviour
     {
-        [SerializeField] private GameObject _lift, _steeringWheel, _leftWheel, _rightWheel, _rearWheels;
-        [SerializeField] private Vector3 _liftLowerLimit, _liftUpperLimit;
-        [SerializeField] private float _speed = 5f, _liftSpeed = 1f;
-        [SerializeField] private CinemachineVirtualCamera _forkliftCam;
-        [SerializeField]
-        private GameObject _driverModel;
+        private float _speed = 5f, _liftSpeed = 1f;
+
         private bool _inDriveMode = false;
+
+        [SerializeField] private Vector3 _liftLowerLimit, _liftUpperLimit;
+
+        [SerializeField] private GameObject _lift, _steeringWheel, _leftWheel, _rightWheel, _rearWheels;
+        [SerializeField] private CinemachineVirtualCamera _forkliftCam;
+        [SerializeField] private GameObject _driverModel;
         [SerializeField] private InteractableZone _interactableZone;
 
         public static event Action onDriveModeEntered;
@@ -32,7 +34,6 @@ namespace Game.Scripts.LiveObjects
                 if (Input.GetKeyDown(KeyCode.Escape))
                     ExitDriveMode();
             }
-
         }
 
         void EnterDriveMode(InteractableZone zone)
@@ -53,7 +54,6 @@ namespace Game.Scripts.LiveObjects
             _forkliftCam.Priority = 9;
             _driverModel.SetActive(false);
             onDriveModeExited?.Invoke();
-
         }
 
         void CalcutateMovement()
@@ -73,8 +73,10 @@ namespace Game.Scripts.LiveObjects
             }
         }
 
+        // Update to NIS
         void LiftControls()
         {
+            Debug.Log("Lift Controls");
             if (Input.GetKey(KeyCode.R))
                 LiftUpRoutine();
             else if (Input.GetKey(KeyCode.T))

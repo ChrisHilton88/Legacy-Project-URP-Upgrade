@@ -55,6 +55,7 @@
   <ItemGroup>
     <Compile Include="Assets\GameDevHQ\FileBase\Projects\Tutorials\Starter_Files\Input_System_Starter_File\Game\Scripts\Player\Player.cs" />
     <Compile Include="Assets\GameDevHQ\FileBase\Projects\Tutorials\Starter_Files\Input_System_Starter_File\Game\Scripts\LiveObjects\Taxi.cs" />
+    <Compile Include="Assets\Inputs\PlayerInputActions.cs" />
     <Compile Include="Assets\GameDevHQ\FileBase\Projects\Tutorials\Starter_Files\Input_System_Starter_File\Game\Scripts\Interfaces\IDestroyable.cs" />
     <Compile Include="Assets\GameDevHQ\FileBase\Projects\Tutorials\Starter_Files\Input_System_Starter_File\Game\Scripts\LiveObjects\EndZone.cs" />
     <Compile Include="Assets\GameDevHQ\FileBase\Projects\Tutorials\Starter_Files\Input_System_Starter_File\Game\Scripts\LiveObjects\Crate.cs" />
@@ -67,7 +68,7 @@
     <Compile Include="Assets\GameDevHQ\FileBase\Projects\Tutorials\Starter_Files\Input_System_Starter_File\Game\Scripts\LiveObjects\Laptop.cs" />
     <Compile Include="Assets\GameDevHQ\FileBase\Projects\Tutorials\Starter_Files\Input_System_Starter_File\Game\Scripts\LiveObjects\C4.cs" />
     <Compile Include="Assets\GameDevHQ\FileBase\Projects\Tutorials\Starter_Files\Input_System_Starter_File\Game\Scripts\LiveObjects\Detonator.cs" />
-    <Compile Include="Assets\Inputs\PlayerInputActions.cs" />
+    <Compile Include="Assets\GameDevHQ\FileBase\Projects\Tutorials\Starter_Files\Input_System_Starter_File\Game\Scripts\Managers\InputManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\GameDevHQ\FileBase\Plugin\Filebase.dll" />

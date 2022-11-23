@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 using Game.Scripts.LiveObjects;
 using Cinemachine;
-using UnityEngine.InputSystem;
 
 namespace Game.Scripts.Player
 {
@@ -9,10 +8,9 @@ namespace Game.Scripts.Player
     public class Player : MonoBehaviour
     {
         [SerializeField] private float _moveSpeed = 5.0f;
-        [SerializeField] private float _rotSpeed = 20f;
 
         private bool _playerGrounded;
-        private bool _canMove = true;
+        [SerializeField] private bool _canMove = true;
 
         private PlayerInputActions _playerInputActions;
         private CharacterController _controller;
@@ -26,13 +24,8 @@ namespace Game.Scripts.Player
 
         void OnEnable()
         {
-            // 1. Get a reference to Input Action Asset
             _playerInputActions = new PlayerInputActions();
-
-            // 2. Enable Action Map
             _playerInputActions.Player.Enable();
-
-            // Subscribing to delegate events
             InteractableZone.onZoneInteractionComplete += InteractableZone_onZoneInteractionComplete;
             Laptop.onHackComplete += ReleasePlayerControl;
             Laptop.onHackEnded += ReturnPlayerControl;
@@ -46,7 +39,6 @@ namespace Game.Scripts.Player
         void Start()
         {
             _controller = GetComponent<CharacterController>();
-            _playerInputActions.Player.Movement.performed += MovementPerformed;
 
             if (_controller == null)
                 Debug.LogError("No Character Controller Present");
@@ -66,15 +58,10 @@ namespace Game.Scripts.Player
         void CalculateMovement()
         {
             _playerGrounded = _controller.isGrounded;
-            //float h = Input.GetAxisRaw("Horizontal");
-            //float v = Input.GetAxisRaw("Vertical");
 
-            // Storing the Vector ReadValues into a new variable
+            // Check Player is enabled
             Vector2 _playerInput = _playerInputActions.Player.Movement.ReadValue<Vector2>();
-            // Moving player using Vector2 above on the X and Z-axis's. Using the Vector2 Y as the Z-axis
-            // Allows for movement forward, backwards, left and right
-            transform.Translate(new Vector3(_playerInput.x, 0, _playerInput.y) * Time.deltaTime * _moveSpeed);
-            // Rotate the character using the Y-axis. 
+
             transform.Rotate(transform.up, _playerInput.x);
 
             Vector3 direction = transform.forward * _playerInput.y;
@@ -82,7 +69,7 @@ namespace Game.Scripts.Player
 
             _anim.SetFloat("Speed", Mathf.Abs(velocity.magnitude));
 
-            // Jump
+            // Stays on the ground
             if (_playerGrounded)
                 velocity.y = 0f;
 
@@ -90,13 +77,8 @@ namespace Game.Scripts.Player
             {
                 velocity.y += -20f * Time.deltaTime;
             }
-            
-            _controller.Move(velocity * Time.deltaTime);                      
-        }
 
-        void MovementPerformed(InputAction.CallbackContext context)
-        {
-            Debug.Log("Moving: " + context.ReadValue<Vector2>());
+            _controller.Move(velocity * Time.deltaTime);
         }
 
         void InteractableZone_onZoneInteractionComplete(InteractableZone zone)

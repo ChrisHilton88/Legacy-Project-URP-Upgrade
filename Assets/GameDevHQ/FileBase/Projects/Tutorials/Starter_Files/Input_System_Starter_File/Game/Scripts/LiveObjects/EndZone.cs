@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -8,12 +5,12 @@ namespace Game.Scripts.LiveObjects
 {
     public class EndZone : MonoBehaviour
     {
-        private void OnEnable()
+        void OnEnable()
         {
             InteractableZone.onZoneInteractionComplete += InteractableZone_onZoneInteractionComplete;
         }
 
-        private void InteractableZone_onZoneInteractionComplete(InteractableZone zone)
+        void InteractableZone_onZoneInteractionComplete(InteractableZone zone)
         {
             if (zone.GetZoneID() == 7)
             {
@@ -22,7 +19,7 @@ namespace Game.Scripts.LiveObjects
             }
         }
 
-        private void OnDisable()
+        void OnDisable()
         {
             InteractableZone.onZoneInteractionComplete -= InteractableZone_onZoneInteractionComplete;
         }

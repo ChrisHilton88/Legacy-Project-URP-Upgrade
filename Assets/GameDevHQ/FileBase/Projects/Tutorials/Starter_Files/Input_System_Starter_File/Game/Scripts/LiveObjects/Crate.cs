@@ -7,20 +7,24 @@ namespace Game.Scripts.LiveObjects
     public class Crate : MonoBehaviour
     {
         [SerializeField] private float _punchDelay;
-        [SerializeField] private GameObject _wholeCrate, _brokenCrate;
-        [SerializeField] private Rigidbody[] _pieces;
-        [SerializeField] private BoxCollider _crateCollider;
-        [SerializeField] private InteractableZone _interactableZone;
+
         private bool _isReadyToBreak = false;
 
         private List<Rigidbody> _brakeOff = new List<Rigidbody>();
 
-        private void OnEnable()
+        [SerializeField] private GameObject _wholeCrate, _brokenCrate;
+        [SerializeField] private Rigidbody[] _pieces;
+        [SerializeField] private BoxCollider _crateCollider;
+        [SerializeField] private InteractableZone _interactableZone;
+
+
+
+        void OnEnable()
         {
             InteractableZone.onZoneInteractionComplete += InteractableZone_onZoneInteractionComplete;
         }
 
-        private void InteractableZone_onZoneInteractionComplete(InteractableZone zone)
+        void InteractableZone_onZoneInteractionComplete(InteractableZone zone)
         {
             
             if (_isReadyToBreak == false && _brakeOff.Count >0)
@@ -47,13 +51,10 @@ namespace Game.Scripts.LiveObjects
             }
         }
 
-        private void Start()
+        void Start()
         {
             _brakeOff.AddRange(_pieces);
-            
         }
-
-
 
         public void BreakPart()
         {
@@ -75,7 +76,7 @@ namespace Game.Scripts.LiveObjects
             _interactableZone.ResetAction(6);
         }
 
-        private void OnDisable()
+        void OnDisable()
         {
             InteractableZone.onZoneInteractionComplete -= InteractableZone_onZoneInteractionComplete;
         }

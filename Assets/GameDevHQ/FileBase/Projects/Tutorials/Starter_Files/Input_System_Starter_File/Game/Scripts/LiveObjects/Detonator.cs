@@ -1,29 +1,28 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Game.Scripts.LiveObjects
 {
     public class Detonator : MonoBehaviour
     {
-        [SerializeField]
-        private C4 _c4;
         private bool _c4Placed;
-        private MeshRenderer _render;
-        [SerializeField]
-        private InteractableZone[] _interactableZone;
 
-        private void OnEnable()
+        private MeshRenderer _render;
+
+        [SerializeField] private C4 _c4;
+        [SerializeField] private InteractableZone[] _interactableZone;
+
+
+        void OnEnable()
         {
             InteractableZone.onZoneInteractionComplete += InteractableZone_onZoneInteractionComplete;
         }
 
-        private void Start()
+        void Start()
         {
             _render = GetComponent<MeshRenderer>();
         }
 
-        private void InteractableZone_onZoneInteractionComplete(InteractableZone zone)
+        void InteractableZone_onZoneInteractionComplete(InteractableZone zone)
         {
             if (_c4Placed != true && zone.GetZoneID() == 1) //placed C4
             {             
@@ -40,7 +39,7 @@ namespace Game.Scripts.LiveObjects
             _c4.Explode();
             _c4Placed = false;
             _interactableZone[1].CompleteTask(2);
-            Destroy(this.gameObject);
+            Destroy(gameObject);
         }
 
         void PlaceC4(Transform target)
@@ -56,7 +55,7 @@ namespace Game.Scripts.LiveObjects
             _render.enabled = true;
         }
 
-        private void Ondisable()
+        void Ondisable()
         {
             InteractableZone.onZoneInteractionComplete -= InteractableZone_onZoneInteractionComplete;
         }
