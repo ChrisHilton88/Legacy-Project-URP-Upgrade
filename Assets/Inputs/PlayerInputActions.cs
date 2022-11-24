@@ -65,6 +65,14 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Break Crate"",
+                    ""type"": ""Button"",
+                    ""id"": ""19129c9c-44bc-4b58-9a86-d5f1d4d21d06"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -175,6 +183,17 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Exit Cameras"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""8895f846-57b4-4e78-b1ba-02ce96804c53"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": ""Tap,Hold"",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Break Crate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -412,7 +431,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""id"": ""fa469646-d2db-4f33-ad61-c022aa7e407a"",
                     ""path"": ""1DAxis"",
                     ""interactions"": ""Hold"",
-                    ""processors"": """",
+                    ""processors"": ""Invert"",
                     ""groups"": """",
                     ""action"": ""Fork Movement"",
                     ""isComposite"": true,
@@ -453,6 +472,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         m_Player_HoldAction = m_Player.FindAction("HoldAction", throwIfNotFound: true);
         m_Player_SwitchCameras = m_Player.FindAction("Switch Cameras", throwIfNotFound: true);
         m_Player_ExitCameras = m_Player.FindAction("Exit Cameras", throwIfNotFound: true);
+        m_Player_BreakCrate = m_Player.FindAction("Break Crate", throwIfNotFound: true);
         // Drone
         m_Drone = asset.FindActionMap("Drone", throwIfNotFound: true);
         m_Drone_Thrusters = m_Drone.FindAction("Thrusters", throwIfNotFound: true);
@@ -518,6 +538,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_Player_HoldAction;
     private readonly InputAction m_Player_SwitchCameras;
     private readonly InputAction m_Player_ExitCameras;
+    private readonly InputAction m_Player_BreakCrate;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -528,6 +549,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         public InputAction @HoldAction => m_Wrapper.m_Player_HoldAction;
         public InputAction @SwitchCameras => m_Wrapper.m_Player_SwitchCameras;
         public InputAction @ExitCameras => m_Wrapper.m_Player_ExitCameras;
+        public InputAction @BreakCrate => m_Wrapper.m_Player_BreakCrate;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -555,6 +577,9 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @ExitCameras.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExitCameras;
                 @ExitCameras.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExitCameras;
                 @ExitCameras.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExitCameras;
+                @BreakCrate.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBreakCrate;
+                @BreakCrate.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBreakCrate;
+                @BreakCrate.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnBreakCrate;
             }
             m_Wrapper.m_PlayerActionsCallbackInterface = instance;
             if (instance != null)
@@ -577,6 +602,9 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @ExitCameras.started += instance.OnExitCameras;
                 @ExitCameras.performed += instance.OnExitCameras;
                 @ExitCameras.canceled += instance.OnExitCameras;
+                @BreakCrate.started += instance.OnBreakCrate;
+                @BreakCrate.performed += instance.OnBreakCrate;
+                @BreakCrate.canceled += instance.OnBreakCrate;
             }
         }
     }
@@ -687,6 +715,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         void OnHoldAction(InputAction.CallbackContext context);
         void OnSwitchCameras(InputAction.CallbackContext context);
         void OnExitCameras(InputAction.CallbackContext context);
+        void OnBreakCrate(InputAction.CallbackContext context);
     }
     public interface IDroneActions
     {

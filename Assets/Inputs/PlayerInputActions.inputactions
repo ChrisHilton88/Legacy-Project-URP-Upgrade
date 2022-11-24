@@ -52,6 +52,14 @@
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
+                },
+                {
+                    "name": "Break Crate",
+                    "type": "Button",
+                    "id": "19129c9c-44bc-4b58-9a86-d5f1d4d21d06",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -162,6 +170,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Exit Cameras",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "8895f846-57b4-4e78-b1ba-02ce96804c53",
+                    "path": "<Keyboard>/e",
+                    "interactions": "Tap,Hold",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Break Crate",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
@@ -399,7 +418,7 @@
                     "id": "fa469646-d2db-4f33-ad61-c022aa7e407a",
                     "path": "1DAxis",
                     "interactions": "Hold",
-                    "processors": "",
+                    "processors": "Invert",
                     "groups": "",
                     "action": "Fork Movement",
                     "isComposite": true,

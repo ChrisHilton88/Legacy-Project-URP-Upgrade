@@ -87,7 +87,6 @@ namespace Game.Scripts.LiveObjects
             }
         }
 
-        // Update to NIS
         void LiftControls()
         {
             float _moveYAxis = _playerInputActions.Forklift.ForkMovement.ReadValue<float>();

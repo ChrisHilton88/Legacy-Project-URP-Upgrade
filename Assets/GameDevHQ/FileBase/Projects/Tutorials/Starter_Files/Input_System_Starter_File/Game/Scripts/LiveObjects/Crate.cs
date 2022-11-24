@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 
 namespace Game.Scripts.LiveObjects
 {
@@ -17,17 +19,34 @@ namespace Game.Scripts.LiveObjects
         [SerializeField] private BoxCollider _crateCollider;
         [SerializeField] private InteractableZone _interactableZone;
 
+        PlayerInputActions _playerInputActions;
+
+        private bool _tapAndHoldTrigger;
+
 
 
         void OnEnable()
         {
+            _playerInputActions = new PlayerInputActions();
+            _playerInputActions.Player.Enable();
             InteractableZone.onZoneInteractionComplete += InteractableZone_onZoneInteractionComplete;
+            _playerInputActions.Player.BreakCrate.performed += BreakCratePerformed;
+        }
+
+        void BreakCratePerformed(InputAction.CallbackContext context)
+        {
+            if (context.interaction is TapInteraction)
+                Debug.Log("Tap");
+                BreakPart();
+            if (context.interaction is HoldInteraction)
+                Debug.Log("Hold");
+                BreakMoreParts();
+
         }
 
         void InteractableZone_onZoneInteractionComplete(InteractableZone zone)
         {
-            
-            if (_isReadyToBreak == false && _brakeOff.Count >0)
+            if (_isReadyToBreak == false && _brakeOff.Count > 0)
             {
                 _wholeCrate.SetActive(false);
                 _brokenCrate.SetActive(true);
@@ -58,10 +77,20 @@ namespace Game.Scripts.LiveObjects
 
         public void BreakPart()
         {
+            Debug.Log("Breaking");
             int rng = Random.Range(0, _brakeOff.Count);
             _brakeOff[rng].constraints = RigidbodyConstraints.None;
             _brakeOff[rng].AddForce(new Vector3(1f, 1f, 1f), ForceMode.Force);
             _brakeOff.Remove(_brakeOff[rng]);            
+        }
+
+        public void BreakMoreParts()
+        {
+            Debug.Log("Breaking more parts");
+            int rng = Random.Range(3, _brakeOff.Count);
+            _brakeOff[rng].constraints = RigidbodyConstraints.None;
+            _brakeOff[rng].AddForce(new Vector3(1f, 1f, 1f), ForceMode.Force);
+            _brakeOff.Remove(_brakeOff[rng]);
         }
 
         IEnumerator PunchDelay()
