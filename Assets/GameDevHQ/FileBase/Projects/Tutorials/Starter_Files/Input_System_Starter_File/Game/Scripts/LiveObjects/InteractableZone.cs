@@ -2,6 +2,7 @@
 using UnityEngine;
 using Game.Scripts.UI;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Interactions;
 
 namespace Game.Scripts.LiveObjects
 {
@@ -67,48 +68,41 @@ namespace Game.Scripts.LiveObjects
 
         void Start()
         {
-            _playerInputActions.Player.Collectable.started += CollectableStarted;
-            _playerInputActions.Player.Action.started += ActionStarted;
-            _playerInputActions.Player.HoldAction.started += HoldActionStarted;
-            _playerInputActions.Player.HoldAction.canceled += HoldActionCanceled;
+            _playerInputActions.Player.Interact.performed += InteractPerformed;
+            _playerInputActions.Player.Interact.canceled += InteractCanceled;
         }
 
-        void CollectableStarted(InputAction.CallbackContext context)
+        void InteractPerformed(InputAction.CallbackContext context)
         {
-            if(InZone && _zoneType == ZoneType.Collectable)
+            if (InZone)
             {
-                if (_itemsCollected == false)
+                if (context.interaction is TapInteraction && _zoneType == ZoneType.Collectable)
                 {
-                    CollectItems();
-                    _itemsCollected = true;
-                    UIManager.Instance.DisplayInteractableZoneMessage(false);
+                    if (_itemsCollected == false)
+                    {
+                        CollectItems();
+                        _itemsCollected = true;
+                        UIManager.Instance.DisplayInteractableZoneMessage(false);
+                    }
+                }
+                else if (context.interaction is TapInteraction && _zoneType == ZoneType.Action)
+                {
+                    if (_actionPerformed == false)
+                    {
+                        PerformAction();
+                        _actionPerformed = true;
+                        UIManager.Instance.DisplayInteractableZoneMessage(false);
+                    }
+                }
+                else if (context.interaction is HoldInteraction && _zoneType == ZoneType.HoldAction)
+                {
+                    _inHoldState = true;
+                    PerformHoldAction();
                 }
             }
         }
 
-        void ActionStarted(InputAction.CallbackContext context)
-        {
-            if(InZone && _zoneType == ZoneType.Action)
-            {
-                if (_actionPerformed == false)
-                {
-                    PerformAction();
-                    _actionPerformed = true;
-                    UIManager.Instance.DisplayInteractableZoneMessage(false);
-                }
-            }
-        }
-
-        void HoldActionStarted(InputAction.CallbackContext context)
-        {
-            if(InZone && _zoneType == ZoneType.HoldAction)
-            {
-                _inHoldState = true;
-                PerformHoldAction();
-            }
-        }
-
-        void HoldActionCanceled(InputAction.CallbackContext context)
+        void InteractCanceled(InputAction.CallbackContext context)
         {
             if(InZone && _zoneType == ZoneType.HoldAction)
             {
@@ -170,7 +164,6 @@ namespace Game.Scripts.LiveObjects
         public void CollectItems()
         {
             Debug.Log("Collected the items");
-            Debug.Log(CurrentZoneID);
             foreach (var item in _zoneItems)
             {
                 item.SetActive(false);
@@ -296,10 +289,8 @@ namespace Game.Scripts.LiveObjects
         void OnDisable()
         {
             onZoneInteractionComplete -= SetMarker;
-            _playerInputActions.Player.Collectable.started -= CollectableStarted;
-            _playerInputActions.Player.Action.started -= ActionStarted;
-            _playerInputActions.Player.HoldAction.started -= HoldActionStarted;
-            _playerInputActions.Player.HoldAction.canceled -= HoldActionCanceled;
+            _playerInputActions.Player.Interact.performed -= InteractPerformed;
+            _playerInputActions.Player.Interact.canceled -= InteractCanceled;
             _playerInputActions.Player.Disable();
         }       
     }

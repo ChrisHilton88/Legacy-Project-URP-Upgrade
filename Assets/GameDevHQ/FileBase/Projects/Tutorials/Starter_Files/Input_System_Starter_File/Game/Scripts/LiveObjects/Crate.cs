@@ -10,6 +10,10 @@ namespace Game.Scripts.LiveObjects
     {
         [SerializeField] private float _punchDelay;
 
+        private int _onePiece = 1;
+        private int _minRangePieces = 2, _maxRangePieces = 5;
+        private int _multiplePiecesRNG;
+
         private bool _isReadyToBreak = false;
 
         private List<Rigidbody> _brakeOff = new List<Rigidbody>();
@@ -21,27 +25,30 @@ namespace Game.Scripts.LiveObjects
 
         PlayerInputActions _playerInputActions;
 
-        private bool _tapAndHoldTrigger;
-
-
 
         void OnEnable()
         {
             _playerInputActions = new PlayerInputActions();
             _playerInputActions.Player.Enable();
             InteractableZone.onZoneInteractionComplete += InteractableZone_onZoneInteractionComplete;
-            _playerInputActions.Player.BreakCrate.performed += BreakCratePerformed;
+            _playerInputActions.Player.Interact.performed += BreakCratePerformed;
         }
 
         void BreakCratePerformed(InputAction.CallbackContext context)
         {
-            if (context.interaction is TapInteraction)
-                Debug.Log("Tap");
-                BreakPart();
-            if (context.interaction is HoldInteraction)
-                Debug.Log("Hold");
-                BreakMoreParts();
-
+            if (_interactableZone.InZone && _isReadyToBreak && _interactableZone.GetZoneID() == 6)
+            {
+                if (context.interaction is TapInteraction && _brakeOff.Count > 0)
+                {
+                    BreakSinglePart();
+                    StartCoroutine(PunchDelay());
+                }
+                else if (context.interaction is HoldInteraction && _brakeOff.Count > 0)
+                {
+                    BreakMultipleParts();
+                    StartCoroutine(PunchDelay());
+                }
+            }
         }
 
         void InteractableZone_onZoneInteractionComplete(InteractableZone zone)
@@ -52,21 +59,12 @@ namespace Game.Scripts.LiveObjects
                 _brokenCrate.SetActive(true);
                 _isReadyToBreak = true;
             }
-
-            if (_isReadyToBreak && zone.GetZoneID() == 6) //Crate zone            
+            else if (_isReadyToBreak && _brakeOff.Count == 0)
             {
-                if (_brakeOff.Count > 0)
-                {
-                    BreakPart();
-                    StartCoroutine(PunchDelay());
-                }
-                else if(_brakeOff.Count == 0)
-                {
-                    _isReadyToBreak = false;
-                    _crateCollider.enabled = false;
-                    _interactableZone.CompleteTask(6);
-                    Debug.Log("Completely Busted");
-                }
+                _isReadyToBreak = false;
+                _crateCollider.enabled = false;
+                _interactableZone.CompleteTask(6);
+                Debug.Log("Completely Busted");
             }
         }
 
@@ -75,22 +73,54 @@ namespace Game.Scripts.LiveObjects
             _brakeOff.AddRange(_pieces);
         }
 
-        public void BreakPart()
+        // Working correctly
+        public void BreakSinglePart()
         {
-            Debug.Log("Breaking");
-            int rng = Random.Range(0, _brakeOff.Count);
-            _brakeOff[rng].constraints = RigidbodyConstraints.None;
-            _brakeOff[rng].AddForce(new Vector3(1f, 1f, 1f), ForceMode.Force);
-            _brakeOff.Remove(_brakeOff[rng]);            
+            if(_brakeOff.Count < 1)
+                _brakeOff.Clear();
+            else
+            {
+                _brakeOff[_onePiece].constraints = RigidbodyConstraints.None;
+                _brakeOff[_onePiece].AddForce(new Vector3(1f, 1f, 1f), ForceMode.Force);
+                _brakeOff.Remove(_brakeOff[_onePiece]);
+                Debug.Log("Total pieces remaining: " + _brakeOff.Count);
+            }
         }
 
-        public void BreakMoreParts()
+        public void BreakMultipleParts()
         {
-            Debug.Log("Breaking more parts");
-            int rng = Random.Range(3, _brakeOff.Count);
-            _brakeOff[rng].constraints = RigidbodyConstraints.None;
-            _brakeOff[rng].AddForce(new Vector3(1f, 1f, 1f), ForceMode.Force);
-            _brakeOff.Remove(_brakeOff[rng]);
+            _multiplePiecesRNG = Random.Range(_minRangePieces, _maxRangePieces);
+            Debug.Log("Hold RNG: " + _multiplePiecesRNG);
+
+            if(_multiplePiecesRNG > _brakeOff.Count)
+            {
+                _multiplePiecesRNG = _brakeOff.Count;
+                Debug.Log("MultiplePiecesRNG: " + _multiplePiecesRNG);
+                CalculateBreakMultiplePieces(_multiplePiecesRNG);
+            }
+            else
+            {
+                CalculateBreakMultiplePieces(_multiplePiecesRNG);
+            }
+        }
+
+        void CalculateBreakMultiplePieces(int pieces)
+        {
+            for(int i = 0; i < pieces; i++)
+            {
+                if (_brakeOff.Count < 1)
+                {
+                    _brakeOff.Clear();
+                    return;
+                }
+                else
+                {
+                    _brakeOff[i].constraints = RigidbodyConstraints.None;
+                    _brakeOff[i].AddForce(new Vector3(1f, 1f, 1f), ForceMode.Force);
+                    _brakeOff.Remove(_brakeOff[i]);
+                    Debug.Log("Total pieces remaining: " + _brakeOff.Count);
+                }
+            }
         }
 
         IEnumerator PunchDelay()

@@ -30,11 +30,11 @@ namespace Game.Scripts.LiveObjects
             _playerInputActions.Player.Enable();
             InteractableZone.onHoldStarted += InteractableZone_onHoldStarted;
             InteractableZone.onHoldEnded += InteractableZone_onHoldEnded;
-            _playerInputActions.Player.SwitchCameras.started += SwitchCamerasStarted;
-            _playerInputActions.Player.ExitCameras.started += ExitCameraStarted;
+            _playerInputActions.Player.Interact.performed += SwitchCamerasPerformed;
+            _playerInputActions.Player.ExitCameras.performed += ExitCameraPerformed;
         }
 
-        void SwitchCamerasStarted(InputAction.CallbackContext context)
+        void SwitchCamerasPerformed(InputAction.CallbackContext context)
         {
             if(_hacked == true)
             {
@@ -49,7 +49,7 @@ namespace Game.Scripts.LiveObjects
             }
         }
 
-        void ExitCameraStarted(InputAction.CallbackContext context)
+        void ExitCameraPerformed(InputAction.CallbackContext context)
         {
             _hacked = false;
             onHackEnded?.Invoke();
@@ -111,8 +111,8 @@ namespace Game.Scripts.LiveObjects
         {
             InteractableZone.onHoldStarted -= InteractableZone_onHoldStarted;
             InteractableZone.onHoldEnded -= InteractableZone_onHoldEnded;
-            _playerInputActions.Player.SwitchCameras.started -= SwitchCamerasStarted;
-            _playerInputActions.Player.ExitCameras.started -= ExitCameraStarted;
+            _playerInputActions.Player.Interact.performed -= SwitchCamerasPerformed;
+            _playerInputActions.Player.ExitCameras.performed -= ExitCameraPerformed;
             _playerInputActions.Player.Disable();
         }
     }

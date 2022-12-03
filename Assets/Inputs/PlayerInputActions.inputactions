@@ -14,49 +14,17 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Collectable",
+                    "name": "Interact",
                     "type": "Button",
                     "id": "30f051a0-1ac8-47b9-9973-4f35164a4ffe",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Action",
-                    "type": "Button",
-                    "id": "ffae0723-7e8f-442a-bb7f-de99bea33c1c",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "HoldAction",
-                    "type": "Button",
-                    "id": "ca340f1a-8d61-4e4f-9972-e4f129c3eb04",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Switch Cameras",
-                    "type": "Button",
-                    "id": "04a69d41-1b8d-4acc-9614-92a3d8988cb1",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
+                    "interactions": "Tap,Hold(duration=0.25)"
                 },
                 {
                     "name": "Exit Cameras",
                     "type": "Button",
                     "id": "300312b2-4adf-4811-b27d-44b75c692545",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Break Crate",
-                    "type": "Button",
-                    "id": "19129c9c-44bc-4b58-9a86-d5f1d4d21d06",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -125,40 +93,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Collectable",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "d7ac4247-b0ef-4951-9e41-f50f3ee46428",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Action",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "736af092-367a-4776-93d4-30747d69b6a0",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "HoldAction",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "242bdb1b-01fc-454c-8081-7781bb14eb30",
-                    "path": "<Keyboard>/e",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Switch Cameras",
+                    "action": "Interact",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -170,17 +105,6 @@
                     "processors": "",
                     "groups": "",
                     "action": "Exit Cameras",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "8895f846-57b4-4e78-b1ba-02ce96804c53",
-                    "path": "<Keyboard>/e",
-                    "interactions": "Tap,Hold",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Break Crate",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
