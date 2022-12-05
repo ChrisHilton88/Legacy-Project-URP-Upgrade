@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Interactions;
 using Game.Scripts.UI;
 
 namespace Game.Scripts.LiveObjects
@@ -34,15 +33,14 @@ namespace Game.Scripts.LiveObjects
             _playerInputActions.Player.Enable();
             InteractableZone.onZoneInteractionComplete += InteractableZone_onZoneInteractionComplete;
             _playerInputActions.Player.InteractTap.performed += BreakCrateTap;
-            _playerInputActions.Player.InteractHold.performed += BreakCrateHold;
+            _playerInputActions.Player.InteractTap.canceled += BreakCrateHold;
         }
 
         void BreakCrateTap(InputAction.CallbackContext context)
         {
             if (_interactableZone.InZone && _isReadyToBreak && _interactableZone.GetZoneID() == 6)
             {
-                // When this is on 1, it will become 0 and call BreakSinglePart()
-                if (context.interaction is TapInteraction && _brakeOff.Count > 0)
+                if (_brakeOff.Count > 0)
                 {
                     Debug.Log("Tap crate");
                     BreakSinglePart();
@@ -53,10 +51,14 @@ namespace Game.Scripts.LiveObjects
 
         void BreakCrateHold(InputAction.CallbackContext context)
         {
+            Debug.Log("Test");
+
             if (_interactableZone.InZone && _isReadyToBreak && _interactableZone.GetZoneID() == 6)
             {
+                Debug.Log("Test 2");
+
                 if (_brakeOff.Count > 0)
-                {       
+                {
                     Debug.Log("Hold Crate");
                     BreakMultipleParts();
                     StartCoroutine(PunchDelay());
@@ -98,7 +100,6 @@ namespace Game.Scripts.LiveObjects
             else
             {
                 _brakeOff.Clear();
-                Debug.Log("Zero: " + _brakeOff.Count);
             }
         }
 

@@ -2,7 +2,6 @@
 using UnityEngine;
 using Game.Scripts.UI;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Interactions;
 
 namespace Game.Scripts.LiveObjects
 {
@@ -96,8 +95,6 @@ namespace Game.Scripts.LiveObjects
                         UIManager.Instance.DisplayInteractableZoneMessage(false);
                     }
                 }
-                else
-                    Debug.Log("Not an appropriate ZoneType");
             }
         }
 
