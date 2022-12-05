@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Interactions;
+using Game.Scripts.UI;
 
 namespace Game.Scripts.LiveObjects
 {
@@ -24,6 +25,7 @@ namespace Game.Scripts.LiveObjects
         [SerializeField] private InteractableZone _interactableZone;
 
         PlayerInputActions _playerInputActions;
+        
 
 
         void OnEnable()
@@ -66,6 +68,8 @@ namespace Game.Scripts.LiveObjects
                 _brokenCrate.SetActive(true);
                 _isReadyToBreak = true;
             }
+            // This isn't getting called for multiple break parts, when the final piece is broken.
+            // The crate is being busted and the marker moves forward, but the text to destroy the creat with E still stays.
             else if (_isReadyToBreak && _brakeOff.Count <= 0)
             {
                 _isReadyToBreak = false;
@@ -77,11 +81,9 @@ namespace Game.Scripts.LiveObjects
 
         void Start()
         {
-            // 21
             _brakeOff.AddRange(_pieces);
         }
 
-        // Working correctly
         public void BreakSinglePart()
         {
             if(_brakeOff.Count > 0)
@@ -103,7 +105,6 @@ namespace Game.Scripts.LiveObjects
             _multiplePiecesRNG = Random.Range(_minRangePieces, _maxRangePieces);
             Debug.Log("Hold RNG: " + _multiplePiecesRNG);
 
-            // If the RNG number is greater than breakoff Count, set RNG value to equal Count.
             if(_multiplePiecesRNG > _brakeOff.Count)
             {
                 _multiplePiecesRNG = _brakeOff.Count;
@@ -122,17 +123,25 @@ namespace Game.Scripts.LiveObjects
             {
                 if (_brakeOff.Count > 0)
                 {
-                    if (_brakeOff.Count != 0)
+                    _brakeOff[elementZero].constraints = RigidbodyConstraints.None;
+                    _brakeOff[elementZero].AddForce(new Vector3(1f, 1f, 1f), ForceMode.Force);
+                    _brakeOff.Remove(_brakeOff[elementZero]);
+                    Debug.Log("CalculateBreakMultiplePieces IF statement: " + _brakeOff.Count);
+
+                    if (_brakeOff.Count <= 0)
                     {
-                        _brakeOff[elementZero].constraints = RigidbodyConstraints.None;
-                        _brakeOff[elementZero].AddForce(new Vector3(1f, 1f, 1f), ForceMode.Force);
-                        _brakeOff.Remove(_brakeOff[elementZero]);
-                        Debug.Log("CalculateBreakMultiplePieces IF statement: " + _brakeOff.Count);
-                    }
-                    else
-                    {
+                        _isReadyToBreak = false;
+                        _crateCollider.enabled = false;
+                        _interactableZone.CompleteTask(6);
                         _brakeOff.Clear();
-                        Debug.Log("CalculateBreakMultiplePieces ELSE statement: " + _brakeOff.Count);
+                        Debug.Log("CurrentZone: " + InteractableZone.CurrentZoneID);
+                        Debug.Log("Completely Busted");
+
+                        // Add here something to turn off the display message
+                        UIManager.Instance.DisplayInteractableZoneMessage(false);
+
+                        // Display message still showing when stepping out of marker and in again, even though marker has moved forward.
+
                     }
                 }
             }

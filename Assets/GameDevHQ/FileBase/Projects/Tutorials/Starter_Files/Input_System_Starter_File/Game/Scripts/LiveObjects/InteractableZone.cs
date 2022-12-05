@@ -229,6 +229,7 @@ namespace Game.Scripts.LiveObjects
 
         void OnTriggerEnter(Collider other)
         {
+            // 7 > 5 == true. 
             if (other.CompareTag("Player") && CurrentZoneID > _requiredID)
             {
                 switch (_zoneType)
@@ -237,27 +238,7 @@ namespace Game.Scripts.LiveObjects
                         if (_itemsCollected == false)
                         {
                             InZone = true;
-                            if (_displayMessage != null)
-                            {
-                                //// Add a check to see if the Gamepad is the active input
-                                //if (Gamepad.current.wasUpdatedThisFrame)
-                                //{
-                                //    string message = $"Press the A button to {_displayMessage}.";
-                                //    UIManager.Instance.DisplayInteractableZoneMessage(true, message);
-                                //}
-                                //else
-                                //{
-                                    
-                                //}
-
-                                string message = $"Press the E key to {_displayMessage}.";
-                                UIManager.Instance.DisplayInteractableZoneMessage(true, message);
-
-                            }
-                            else
-                            {
-                                UIManager.Instance.DisplayInteractableZoneMessage(true, $"Press the E key to collect");
-                            }
+                            NewMethod();
                         }
                         break;
 
@@ -289,8 +270,22 @@ namespace Game.Scripts.LiveObjects
             }
         }
 
+        private void NewMethod()
+        {
+            if (_displayMessage != null)
+            {
+                string message = $"Press the E key to {_displayMessage}.";
+                UIManager.Instance.DisplayInteractableZoneMessage(true, message);
+            }
+            else
+            {
+                UIManager.Instance.DisplayInteractableZoneMessage(true, $"Press the E key to collect");
+            }
+        }
+
         void OnTriggerExit(Collider other)
         {
+            // When Player steps out of the InZone, turn off display message
             if (other.CompareTag("Player"))
             {
                 InZone = false;
