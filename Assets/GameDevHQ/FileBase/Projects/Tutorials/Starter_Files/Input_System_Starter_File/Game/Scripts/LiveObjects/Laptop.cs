@@ -36,16 +36,19 @@ namespace Game.Scripts.LiveObjects
 
         void SwitchCamerasPerformed(InputAction.CallbackContext context)
         {
-            if(_hacked == true)
+            if (_interactableZone.InZone && _interactableZone.GetZoneID() == 3)
             {
-                var previous = _activeCamera;
-                _activeCamera++;
+                if (_hacked == true)
+                {
+                    var previous = _activeCamera;
+                    _activeCamera++;
 
-                if (_activeCamera >= _cameras.Length)
-                    _activeCamera = 0;
+                    if (_activeCamera >= _cameras.Length)
+                        _activeCamera = 0;
 
-                _cameras[_activeCamera].Priority = 11;
-                _cameras[previous].Priority = 9;
+                    _cameras[_activeCamera].Priority = 11;
+                    _cameras[previous].Priority = 9;
+                }
             }
         }
 

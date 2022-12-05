@@ -104,7 +104,7 @@ namespace Game.Scripts.LiveObjects
 
         void InteractCanceled(InputAction.CallbackContext context)
         {
-            if(InZone && _zoneType == ZoneType.HoldAction)
+            if(context.interaction is HoldInteraction && InZone && _zoneType == ZoneType.HoldAction)
             {
                 _inHoldState = false;
                 onHoldEnded?.Invoke(_zoneID);
@@ -239,8 +239,20 @@ namespace Game.Scripts.LiveObjects
                             InZone = true;
                             if (_displayMessage != null)
                             {
+                                //// Add a check to see if the Gamepad is the active input
+                                //if (Gamepad.current.wasUpdatedThisFrame)
+                                //{
+                                //    string message = $"Press the A button to {_displayMessage}.";
+                                //    UIManager.Instance.DisplayInteractableZoneMessage(true, message);
+                                //}
+                                //else
+                                //{
+                                    
+                                //}
+
                                 string message = $"Press the E key to {_displayMessage}.";
                                 UIManager.Instance.DisplayInteractableZoneMessage(true, message);
+
                             }
                             else
                             {
