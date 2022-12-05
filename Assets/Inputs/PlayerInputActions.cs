@@ -27,12 +27,20 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Interact"",
+                    ""name"": ""InteractTap"",
+                    ""type"": ""Button"",
+                    ""id"": ""93b8cebd-c403-4eeb-9fe0-6055bed92199"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""InteractHold"",
                     ""type"": ""Button"",
                     ""id"": ""30f051a0-1ac8-47b9-9973-4f35164a4ffe"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Tap,Hold(duration=0.25)""
+                    ""interactions"": """"
                 },
                 {
                     ""name"": ""Exit Cameras"",
@@ -158,10 +166,10 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""6b1bdab2-1181-42c7-a3c2-c860a10ac913"",
                     ""path"": ""<Keyboard>/e"",
-                    ""interactions"": ""Tap,Hold(duration=0.25)"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Interact"",
+                    ""action"": ""InteractHold"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -169,10 +177,10 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""6446ed7b-533f-434a-9481-73003e31c55f"",
                     ""path"": ""<XInputController>/buttonSouth"",
-                    ""interactions"": ""Tap,Hold(duration=0.25)"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Interact"",
+                    ""action"": ""InteractHold"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -195,6 +203,28 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
                     ""action"": ""Exit Cameras"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""83d3c774-e1c9-4223-8c05-6ab8fe0b5abf"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": ""Tap"",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""InteractTap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4ee4959c-d919-4aed-827c-8d69646a0aa4"",
+                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": ""Tap"",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""InteractTap"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -491,7 +521,8 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
-        m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
+        m_Player_InteractTap = m_Player.FindAction("InteractTap", throwIfNotFound: true);
+        m_Player_InteractHold = m_Player.FindAction("InteractHold", throwIfNotFound: true);
         m_Player_ExitCameras = m_Player.FindAction("Exit Cameras", throwIfNotFound: true);
         // Drone
         m_Drone = asset.FindActionMap("Drone", throwIfNotFound: true);
@@ -553,14 +584,16 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Movement;
-    private readonly InputAction m_Player_Interact;
+    private readonly InputAction m_Player_InteractTap;
+    private readonly InputAction m_Player_InteractHold;
     private readonly InputAction m_Player_ExitCameras;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
         public PlayerActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
-        public InputAction @Interact => m_Wrapper.m_Player_Interact;
+        public InputAction @InteractTap => m_Wrapper.m_Player_InteractTap;
+        public InputAction @InteractHold => m_Wrapper.m_Player_InteractHold;
         public InputAction @ExitCameras => m_Wrapper.m_Player_ExitCameras;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -574,9 +607,12 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @Movement.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
-                @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
-                @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
-                @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @InteractTap.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteractTap;
+                @InteractTap.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteractTap;
+                @InteractTap.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteractTap;
+                @InteractHold.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteractHold;
+                @InteractHold.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteractHold;
+                @InteractHold.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteractHold;
                 @ExitCameras.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExitCameras;
                 @ExitCameras.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExitCameras;
                 @ExitCameras.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExitCameras;
@@ -587,9 +623,12 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
-                @Interact.started += instance.OnInteract;
-                @Interact.performed += instance.OnInteract;
-                @Interact.canceled += instance.OnInteract;
+                @InteractTap.started += instance.OnInteractTap;
+                @InteractTap.performed += instance.OnInteractTap;
+                @InteractTap.canceled += instance.OnInteractTap;
+                @InteractHold.started += instance.OnInteractHold;
+                @InteractHold.performed += instance.OnInteractHold;
+                @InteractHold.canceled += instance.OnInteractHold;
                 @ExitCameras.started += instance.OnExitCameras;
                 @ExitCameras.performed += instance.OnExitCameras;
                 @ExitCameras.canceled += instance.OnExitCameras;
@@ -716,7 +755,8 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     public interface IPlayerActions
     {
         void OnMovement(InputAction.CallbackContext context);
-        void OnInteract(InputAction.CallbackContext context);
+        void OnInteractTap(InputAction.CallbackContext context);
+        void OnInteractHold(InputAction.CallbackContext context);
         void OnExitCameras(InputAction.CallbackContext context);
     }
     public interface IDroneActions

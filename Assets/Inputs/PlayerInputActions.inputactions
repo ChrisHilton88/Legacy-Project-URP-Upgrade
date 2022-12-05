@@ -14,12 +14,20 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Interact",
+                    "name": "InteractTap",
+                    "type": "Button",
+                    "id": "93b8cebd-c403-4eeb-9fe0-6055bed92199",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "InteractHold",
                     "type": "Button",
                     "id": "30f051a0-1ac8-47b9-9973-4f35164a4ffe",
                     "expectedControlType": "Button",
                     "processors": "",
-                    "interactions": "Tap,Hold(duration=0.25)"
+                    "interactions": ""
                 },
                 {
                     "name": "Exit Cameras",
@@ -145,10 +153,10 @@
                     "name": "",
                     "id": "6b1bdab2-1181-42c7-a3c2-c860a10ac913",
                     "path": "<Keyboard>/e",
-                    "interactions": "Tap,Hold(duration=0.25)",
+                    "interactions": "",
                     "processors": "",
                     "groups": "Keyboard",
-                    "action": "Interact",
+                    "action": "InteractHold",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -156,10 +164,10 @@
                     "name": "",
                     "id": "6446ed7b-533f-434a-9481-73003e31c55f",
                     "path": "<XInputController>/buttonSouth",
-                    "interactions": "Tap,Hold(duration=0.25)",
+                    "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "Interact",
+                    "action": "InteractHold",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -182,6 +190,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "Exit Cameras",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "83d3c774-e1c9-4223-8c05-6ab8fe0b5abf",
+                    "path": "<Keyboard>/e",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "Keyboard",
+                    "action": "InteractTap",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "4ee4959c-d919-4aed-827c-8d69646a0aa4",
+                    "path": "<XInputController>/buttonSouth",
+                    "interactions": "Tap",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "InteractTap",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
