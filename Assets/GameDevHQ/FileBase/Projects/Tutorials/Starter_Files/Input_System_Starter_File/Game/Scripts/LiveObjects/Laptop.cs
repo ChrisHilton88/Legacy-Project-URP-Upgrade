@@ -30,10 +30,11 @@ namespace Game.Scripts.LiveObjects
             _playerInputActions.Player.Enable();
             InteractableZone.onHoldStarted += InteractableZone_onHoldStarted;
             InteractableZone.onHoldEnded += InteractableZone_onHoldEnded;
-            _playerInputActions.Player.Interact.performed += SwitchCamerasPerformed;
+            _playerInputActions.Player.InteractTap.performed += SwitchCamerasPerformed;
             _playerInputActions.Player.ExitCameras.performed += ExitCameraPerformed;
         }
 
+        // Can only switch cameras when hacked is complete and turns true.
         void SwitchCamerasPerformed(InputAction.CallbackContext context)
         {
             if (_interactableZone.InZone && _interactableZone.GetZoneID() == 3)
@@ -67,9 +68,10 @@ namespace Game.Scripts.LiveObjects
             }
         }
 
+        // Starting to hack
         void InteractableZone_onHoldStarted(int zoneID)
         {
-            if (zoneID == 3 && _hacked == false) //Hacking terminal
+            if (zoneID == 3 && _hacked == false) // Hacking terminal
             {
                 _progressBar.gameObject.SetActive(true);
                 StartCoroutine(HackingRoutine());
@@ -77,9 +79,10 @@ namespace Game.Scripts.LiveObjects
             }
         }
 
+        // This should be when the Hold Interaction is canceled 
         void InteractableZone_onHoldEnded(int zoneID)
         {
-            if (zoneID == 3) //Hacking terminal
+            if (zoneID == 3) // Hacking terminal
             {
                 if (_hacked == true)
                     return;
@@ -114,7 +117,7 @@ namespace Game.Scripts.LiveObjects
         {
             InteractableZone.onHoldStarted -= InteractableZone_onHoldStarted;
             InteractableZone.onHoldEnded -= InteractableZone_onHoldEnded;
-            _playerInputActions.Player.Interact.performed -= SwitchCamerasPerformed;
+            _playerInputActions.Player.InteractTap.performed -= SwitchCamerasPerformed;
             _playerInputActions.Player.ExitCameras.performed -= ExitCameraPerformed;
             _playerInputActions.Player.Disable();
         }

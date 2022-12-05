@@ -27,12 +27,20 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Interact"",
+                    ""name"": ""InteractTap"",
+                    ""type"": ""Button"",
+                    ""id"": ""93b8cebd-c403-4eeb-9fe0-6055bed92199"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
+                {
+                    ""name"": ""InteractHold"",
                     ""type"": ""Button"",
                     ""id"": ""30f051a0-1ac8-47b9-9973-4f35164a4ffe"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Tap,Hold(duration=0.25)""
+                    ""interactions"": """"
                 },
                 {
                     ""name"": ""Exit Cameras"",
@@ -113,7 +121,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": ""up"",
                     ""id"": ""5b7e3a03-997d-46c4-b9d6-604cfddd3eed"",
-                    ""path"": ""<Gamepad>/leftStick/up"",
+                    ""path"": ""<XInputController>/leftStick/up"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -124,7 +132,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": ""down"",
                     ""id"": ""e5de634f-8648-4a39-be86-32dfb6e753f8"",
-                    ""path"": ""<Gamepad>/leftStick/down"",
+                    ""path"": ""<XInputController>/leftStick/down"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -135,7 +143,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": ""left"",
                     ""id"": ""5522e1cb-2120-4fc6-9431-266310513a4c"",
-                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""path"": ""<XInputController>/leftStick/left"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -146,7 +154,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": ""right"",
                     ""id"": ""fa97efe6-8f9d-4831-bb01-f35151ab9297"",
-                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""path"": ""<XInputController>/leftStick/right"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
@@ -158,10 +166,10 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""6b1bdab2-1181-42c7-a3c2-c860a10ac913"",
                     ""path"": ""<Keyboard>/e"",
-                    ""interactions"": ""Tap,Hold(duration=0.25)"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Keyboard"",
-                    ""action"": ""Interact"",
+                    ""action"": ""InteractHold"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -169,10 +177,10 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""name"": """",
                     ""id"": ""6446ed7b-533f-434a-9481-73003e31c55f"",
                     ""path"": ""<XInputController>/buttonSouth"",
-                    ""interactions"": ""Tap,Hold(duration=0.25)"",
+                    ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
-                    ""action"": ""Interact"",
+                    ""action"": ""InteractHold"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -197,6 +205,28 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""action"": ""Exit Cameras"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""83d3c774-e1c9-4223-8c05-6ab8fe0b5abf"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": ""Tap"",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""InteractTap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4ee4959c-d919-4aed-827c-8d69646a0aa4"",
+                    ""path"": ""<XInputController>/buttonSouth"",
+                    ""interactions"": ""Tap"",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""InteractTap"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -204,6 +234,14 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
             ""name"": ""Drone"",
             ""id"": ""8d4478bc-1d43-4ed7-bb19-6e4c7ee40bbc"",
             ""actions"": [
+                {
+                    ""name"": ""Movement"",
+                    ""type"": ""Value"",
+                    ""id"": ""8363b5ec-da13-422e-a7b2-3169533c6b99"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """"
+                },
                 {
                     ""name"": ""Thrusters"",
                     ""type"": ""Button"",
@@ -219,14 +257,6 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
-                },
-                {
-                    ""name"": ""Movement"",
-                    ""type"": ""Value"",
-                    ""id"": ""8363b5ec-da13-422e-a7b2-3169533c6b99"",
-                    ""expectedControlType"": ""Vector2"",
-                    ""processors"": """",
-                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -236,13 +266,24 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Exit Flight Mode"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""1D Axis"",
+                    ""name"": """",
+                    ""id"": ""aaee7859-29ff-4752-b0bf-ea59f7a6db89"",
+                    ""path"": ""<XInputController>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Exit Flight Mode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Keyboard"",
                     ""id"": ""bdde3060-4fac-4c81-902c-6534ccb56066"",
                     ""path"": ""1DAxis"",
                     ""interactions"": ""Hold"",
@@ -258,7 +299,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/v"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Thrusters"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -269,13 +310,46 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/space"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Thrusters"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""2D Vector"",
+                    ""name"": ""Gamepad"",
+                    ""id"": ""0d1f9dc6-fc1e-4cc9-8a0f-1628487a4f63"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Thrusters"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""d1ce7522-ce18-4be6-87f2-8e7250ab7244"",
+                    ""path"": ""<XInputController>/leftTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Thrusters"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""4e912caa-dcea-49da-9779-408a98041aed"",
+                    ""path"": ""<XInputController>/rightTrigger"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Thrusters"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Keyboard"",
                     ""id"": ""a26d7414-a9dc-4200-90f9-a7f99a664755"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
@@ -291,7 +365,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -302,7 +376,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -313,7 +387,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -324,7 +398,62 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Gamepad"",
+                    ""id"": ""ae708876-d955-4c4b-a246-93690efa9e79"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": ""InvertVector2(invertY=false)"",
                     ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""548f9732-de49-4261-8804-ca55247c759b"",
+                    ""path"": ""<XInputController>/leftStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""cd473980-2e43-4649-b2fa-48548f797a53"",
+                    ""path"": ""<XInputController>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""97986251-ebac-4d27-b14b-19890c118fb1"",
+                    ""path"": ""<XInputController>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""f89380a3-964f-4acc-982b-234d8678c726"",
+                    ""path"": ""<XInputController>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -344,17 +473,17 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Exit Forklift Mode"",
+                    ""name"": ""Fork Movement"",
                     ""type"": ""Button"",
-                    ""id"": ""17a5c1fb-5eba-4c3f-ae1f-1fd448032c7a"",
+                    ""id"": ""92e19a24-5526-4b14-a4c2-138fb97ed3d5"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
                 },
                 {
-                    ""name"": ""Fork Movement"",
+                    ""name"": ""Exit Forklift Mode"",
                     ""type"": ""Button"",
-                    ""id"": ""92e19a24-5526-4b14-a4c2-138fb97ed3d5"",
+                    ""id"": ""17a5c1fb-5eba-4c3f-ae1f-1fd448032c7a"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """"
@@ -362,7 +491,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
             ],
             ""bindings"": [
                 {
-                    ""name"": ""2D Vector"",
+                    ""name"": ""Keyboard"",
                     ""id"": ""3458f73e-f484-4209-bb6f-df8b0edbdc81"",
                     ""path"": ""2DVector"",
                     ""interactions"": """",
@@ -378,7 +507,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -389,7 +518,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -400,7 +529,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -411,7 +540,62 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Gamepad"",
+                    ""id"": ""f705abee-4fd9-4c3f-9dad-a227029d3d99"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
                     ""groups"": """",
+                    ""action"": ""Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""d50228d2-a585-441a-bce2-e4c85df4d44c"",
+                    ""path"": ""<XInputController>/leftStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""f2e6e8b0-eb79-4761-8aa1-da9139430918"",
+                    ""path"": ""<XInputController>/leftStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""005150a3-3884-41e0-bf45-093927843594"",
+                    ""path"": ""<XInputController>/leftStick/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""4e5b7b2d-09c5-4990-9938-83f486a782bc"",
+                    ""path"": ""<XInputController>/leftStick/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -422,17 +606,28 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""path"": ""<Keyboard>/escape"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Exit Forklift Mode"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""1D Axis"",
+                    ""name"": """",
+                    ""id"": ""39c2a1f1-da75-4207-a886-673edffe75e1"",
+                    ""path"": ""<XInputController>/buttonEast"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Exit Forklift Mode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""Keyboard"",
                     ""id"": ""fa469646-d2db-4f33-ad61-c022aa7e407a"",
                     ""path"": ""1DAxis"",
                     ""interactions"": ""Hold"",
-                    ""processors"": ""Invert"",
+                    ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Fork Movement"",
                     ""isComposite"": true,
@@ -441,10 +636,10 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": ""negative"",
                     ""id"": ""cc4c58a3-62ff-4b0e-b32d-789a4cf84a90"",
-                    ""path"": ""<Keyboard>/r"",
+                    ""path"": ""<Keyboard>/f"",
                     ""interactions"": """",
                     ""processors"": """",
-                    ""groups"": """",
+                    ""groups"": ""Keyboard"",
                     ""action"": ""Fork Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -452,10 +647,43 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": ""positive"",
                     ""id"": ""8eb43eea-6e36-432b-9644-74f44e5e7866"",
-                    ""path"": ""<Keyboard>/f"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard"",
+                    ""action"": ""Fork Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""Gamepad"",
+                    ""id"": ""93027bda-f875-4aee-8347-c0567f5eb1d8"",
+                    ""path"": ""1DAxis"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
+                    ""action"": ""Fork Movement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""397a1c8f-e7cd-4cd5-acff-e920e7073e6f"",
+                    ""path"": ""<XInputController>/rightStick/down"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Fork Movement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""f2934803-8e7b-402a-984a-6effb3a294b3"",
+                    ""path"": ""<XInputController>/rightStick/up"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
                     ""action"": ""Fork Movement"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
@@ -491,18 +719,19 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         // Player
         m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
         m_Player_Movement = m_Player.FindAction("Movement", throwIfNotFound: true);
-        m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
+        m_Player_InteractTap = m_Player.FindAction("InteractTap", throwIfNotFound: true);
+        m_Player_InteractHold = m_Player.FindAction("InteractHold", throwIfNotFound: true);
         m_Player_ExitCameras = m_Player.FindAction("Exit Cameras", throwIfNotFound: true);
         // Drone
         m_Drone = asset.FindActionMap("Drone", throwIfNotFound: true);
+        m_Drone_Movement = m_Drone.FindAction("Movement", throwIfNotFound: true);
         m_Drone_Thrusters = m_Drone.FindAction("Thrusters", throwIfNotFound: true);
         m_Drone_ExitFlightMode = m_Drone.FindAction("Exit Flight Mode", throwIfNotFound: true);
-        m_Drone_Movement = m_Drone.FindAction("Movement", throwIfNotFound: true);
         // Forklift
         m_Forklift = asset.FindActionMap("Forklift", throwIfNotFound: true);
         m_Forklift_Movement = m_Forklift.FindAction("Movement", throwIfNotFound: true);
-        m_Forklift_ExitForkliftMode = m_Forklift.FindAction("Exit Forklift Mode", throwIfNotFound: true);
         m_Forklift_ForkMovement = m_Forklift.FindAction("Fork Movement", throwIfNotFound: true);
+        m_Forklift_ExitForkliftMode = m_Forklift.FindAction("Exit Forklift Mode", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -553,14 +782,16 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Player;
     private IPlayerActions m_PlayerActionsCallbackInterface;
     private readonly InputAction m_Player_Movement;
-    private readonly InputAction m_Player_Interact;
+    private readonly InputAction m_Player_InteractTap;
+    private readonly InputAction m_Player_InteractHold;
     private readonly InputAction m_Player_ExitCameras;
     public struct PlayerActions
     {
         private @PlayerInputActions m_Wrapper;
         public PlayerActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Player_Movement;
-        public InputAction @Interact => m_Wrapper.m_Player_Interact;
+        public InputAction @InteractTap => m_Wrapper.m_Player_InteractTap;
+        public InputAction @InteractHold => m_Wrapper.m_Player_InteractHold;
         public InputAction @ExitCameras => m_Wrapper.m_Player_ExitCameras;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
@@ -574,9 +805,12 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @Movement.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnMovement;
-                @Interact.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
-                @Interact.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
-                @Interact.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteract;
+                @InteractTap.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteractTap;
+                @InteractTap.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteractTap;
+                @InteractTap.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteractTap;
+                @InteractHold.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteractHold;
+                @InteractHold.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteractHold;
+                @InteractHold.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnInteractHold;
                 @ExitCameras.started -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExitCameras;
                 @ExitCameras.performed -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExitCameras;
                 @ExitCameras.canceled -= m_Wrapper.m_PlayerActionsCallbackInterface.OnExitCameras;
@@ -587,9 +821,12 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
-                @Interact.started += instance.OnInteract;
-                @Interact.performed += instance.OnInteract;
-                @Interact.canceled += instance.OnInteract;
+                @InteractTap.started += instance.OnInteractTap;
+                @InteractTap.performed += instance.OnInteractTap;
+                @InteractTap.canceled += instance.OnInteractTap;
+                @InteractHold.started += instance.OnInteractHold;
+                @InteractHold.performed += instance.OnInteractHold;
+                @InteractHold.canceled += instance.OnInteractHold;
                 @ExitCameras.started += instance.OnExitCameras;
                 @ExitCameras.performed += instance.OnExitCameras;
                 @ExitCameras.canceled += instance.OnExitCameras;
@@ -601,16 +838,16 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     // Drone
     private readonly InputActionMap m_Drone;
     private IDroneActions m_DroneActionsCallbackInterface;
+    private readonly InputAction m_Drone_Movement;
     private readonly InputAction m_Drone_Thrusters;
     private readonly InputAction m_Drone_ExitFlightMode;
-    private readonly InputAction m_Drone_Movement;
     public struct DroneActions
     {
         private @PlayerInputActions m_Wrapper;
         public DroneActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Movement => m_Wrapper.m_Drone_Movement;
         public InputAction @Thrusters => m_Wrapper.m_Drone_Thrusters;
         public InputAction @ExitFlightMode => m_Wrapper.m_Drone_ExitFlightMode;
-        public InputAction @Movement => m_Wrapper.m_Drone_Movement;
         public InputActionMap Get() { return m_Wrapper.m_Drone; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -620,28 +857,28 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         {
             if (m_Wrapper.m_DroneActionsCallbackInterface != null)
             {
+                @Movement.started -= m_Wrapper.m_DroneActionsCallbackInterface.OnMovement;
+                @Movement.performed -= m_Wrapper.m_DroneActionsCallbackInterface.OnMovement;
+                @Movement.canceled -= m_Wrapper.m_DroneActionsCallbackInterface.OnMovement;
                 @Thrusters.started -= m_Wrapper.m_DroneActionsCallbackInterface.OnThrusters;
                 @Thrusters.performed -= m_Wrapper.m_DroneActionsCallbackInterface.OnThrusters;
                 @Thrusters.canceled -= m_Wrapper.m_DroneActionsCallbackInterface.OnThrusters;
                 @ExitFlightMode.started -= m_Wrapper.m_DroneActionsCallbackInterface.OnExitFlightMode;
                 @ExitFlightMode.performed -= m_Wrapper.m_DroneActionsCallbackInterface.OnExitFlightMode;
                 @ExitFlightMode.canceled -= m_Wrapper.m_DroneActionsCallbackInterface.OnExitFlightMode;
-                @Movement.started -= m_Wrapper.m_DroneActionsCallbackInterface.OnMovement;
-                @Movement.performed -= m_Wrapper.m_DroneActionsCallbackInterface.OnMovement;
-                @Movement.canceled -= m_Wrapper.m_DroneActionsCallbackInterface.OnMovement;
             }
             m_Wrapper.m_DroneActionsCallbackInterface = instance;
             if (instance != null)
             {
+                @Movement.started += instance.OnMovement;
+                @Movement.performed += instance.OnMovement;
+                @Movement.canceled += instance.OnMovement;
                 @Thrusters.started += instance.OnThrusters;
                 @Thrusters.performed += instance.OnThrusters;
                 @Thrusters.canceled += instance.OnThrusters;
                 @ExitFlightMode.started += instance.OnExitFlightMode;
                 @ExitFlightMode.performed += instance.OnExitFlightMode;
                 @ExitFlightMode.canceled += instance.OnExitFlightMode;
-                @Movement.started += instance.OnMovement;
-                @Movement.performed += instance.OnMovement;
-                @Movement.canceled += instance.OnMovement;
             }
         }
     }
@@ -651,15 +888,15 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     private readonly InputActionMap m_Forklift;
     private IForkliftActions m_ForkliftActionsCallbackInterface;
     private readonly InputAction m_Forklift_Movement;
-    private readonly InputAction m_Forklift_ExitForkliftMode;
     private readonly InputAction m_Forklift_ForkMovement;
+    private readonly InputAction m_Forklift_ExitForkliftMode;
     public struct ForkliftActions
     {
         private @PlayerInputActions m_Wrapper;
         public ForkliftActions(@PlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Movement => m_Wrapper.m_Forklift_Movement;
-        public InputAction @ExitForkliftMode => m_Wrapper.m_Forklift_ExitForkliftMode;
         public InputAction @ForkMovement => m_Wrapper.m_Forklift_ForkMovement;
+        public InputAction @ExitForkliftMode => m_Wrapper.m_Forklift_ExitForkliftMode;
         public InputActionMap Get() { return m_Wrapper.m_Forklift; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -672,12 +909,12 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @Movement.started -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnMovement;
                 @Movement.performed -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnMovement;
                 @Movement.canceled -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnMovement;
-                @ExitForkliftMode.started -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnExitForkliftMode;
-                @ExitForkliftMode.performed -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnExitForkliftMode;
-                @ExitForkliftMode.canceled -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnExitForkliftMode;
                 @ForkMovement.started -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnForkMovement;
                 @ForkMovement.performed -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnForkMovement;
                 @ForkMovement.canceled -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnForkMovement;
+                @ExitForkliftMode.started -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnExitForkliftMode;
+                @ExitForkliftMode.performed -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnExitForkliftMode;
+                @ExitForkliftMode.canceled -= m_Wrapper.m_ForkliftActionsCallbackInterface.OnExitForkliftMode;
             }
             m_Wrapper.m_ForkliftActionsCallbackInterface = instance;
             if (instance != null)
@@ -685,12 +922,12 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @Movement.started += instance.OnMovement;
                 @Movement.performed += instance.OnMovement;
                 @Movement.canceled += instance.OnMovement;
-                @ExitForkliftMode.started += instance.OnExitForkliftMode;
-                @ExitForkliftMode.performed += instance.OnExitForkliftMode;
-                @ExitForkliftMode.canceled += instance.OnExitForkliftMode;
                 @ForkMovement.started += instance.OnForkMovement;
                 @ForkMovement.performed += instance.OnForkMovement;
                 @ForkMovement.canceled += instance.OnForkMovement;
+                @ExitForkliftMode.started += instance.OnExitForkliftMode;
+                @ExitForkliftMode.performed += instance.OnExitForkliftMode;
+                @ExitForkliftMode.canceled += instance.OnExitForkliftMode;
             }
         }
     }
@@ -716,19 +953,20 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     public interface IPlayerActions
     {
         void OnMovement(InputAction.CallbackContext context);
-        void OnInteract(InputAction.CallbackContext context);
+        void OnInteractTap(InputAction.CallbackContext context);
+        void OnInteractHold(InputAction.CallbackContext context);
         void OnExitCameras(InputAction.CallbackContext context);
     }
     public interface IDroneActions
     {
+        void OnMovement(InputAction.CallbackContext context);
         void OnThrusters(InputAction.CallbackContext context);
         void OnExitFlightMode(InputAction.CallbackContext context);
-        void OnMovement(InputAction.CallbackContext context);
     }
     public interface IForkliftActions
     {
         void OnMovement(InputAction.CallbackContext context);
-        void OnExitForkliftMode(InputAction.CallbackContext context);
         void OnForkMovement(InputAction.CallbackContext context);
+        void OnExitForkliftMode(InputAction.CallbackContext context);
     }
 }

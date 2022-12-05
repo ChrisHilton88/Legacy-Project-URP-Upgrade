@@ -2,7 +2,6 @@
 using UnityEngine;
 using Game.Scripts.UI;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Interactions;
 
 namespace Game.Scripts.LiveObjects
 {
@@ -68,15 +67,17 @@ namespace Game.Scripts.LiveObjects
 
         void Start()
         {
-            _playerInputActions.Player.Interact.performed += InteractPerformed;
-            _playerInputActions.Player.Interact.canceled += InteractCanceled;
+            _playerInputActions.Player.InteractTap.performed += InteractTapPerformed;
+            _playerInputActions.Player.InteractHold.performed += InteractHoldPerformed;
+            _playerInputActions.Player.InteractHold.canceled += InteractHoldCanceled;
         }
 
-        void InteractPerformed(InputAction.CallbackContext context)
+        // Gets called when the button is released BEFORE the max tap duration
+        void InteractTapPerformed(InputAction.CallbackContext context)
         {
             if (InZone)
             {
-                if (context.interaction is TapInteraction && _zoneType == ZoneType.Collectable)
+                if (_zoneType == ZoneType.Collectable)
                 {
                     if (_itemsCollected == false)
                     {
@@ -85,7 +86,7 @@ namespace Game.Scripts.LiveObjects
                         UIManager.Instance.DisplayInteractableZoneMessage(false);
                     }
                 }
-                else if (context.interaction is TapInteraction && _zoneType == ZoneType.Action)
+                else if (_zoneType == ZoneType.Action)
                 {
                     if (_actionPerformed == false)
                     {
@@ -94,18 +95,27 @@ namespace Game.Scripts.LiveObjects
                         UIManager.Instance.DisplayInteractableZoneMessage(false);
                     }
                 }
-                else if (context.interaction is HoldInteraction && _zoneType == ZoneType.HoldAction)
+            }
+        }
+
+        void InteractHoldPerformed(InputAction.CallbackContext context)
+        {
+            if (InZone)
+            {
+                if (_zoneType == ZoneType.HoldAction)
                 {
+                    Debug.Log("Hold performed: " + context.time);
                     _inHoldState = true;
                     PerformHoldAction();
                 }
             }
         }
 
-        void InteractCanceled(InputAction.CallbackContext context)
+        void InteractHoldCanceled(InputAction.CallbackContext context)
         {
-            if(context.interaction is HoldInteraction && InZone && _zoneType == ZoneType.HoldAction)
+            if (InZone && _zoneType == ZoneType.HoldAction)
             {
+                Debug.Log("Hold canceled: " + context.time);
                 _inHoldState = false;
                 onHoldEnded?.Invoke(_zoneID);
             }
@@ -163,7 +173,6 @@ namespace Game.Scripts.LiveObjects
 
         public void CollectItems()
         {
-            Debug.Log("Collected the items");
             foreach (var item in _zoneItems)
             {
                 item.SetActive(false);
@@ -296,8 +305,9 @@ namespace Game.Scripts.LiveObjects
         void OnDisable()
         {
             onZoneInteractionComplete -= SetMarker;
-            _playerInputActions.Player.Interact.performed -= InteractPerformed;
-            _playerInputActions.Player.Interact.canceled -= InteractCanceled;
+            _playerInputActions.Player.InteractTap.performed -= InteractTapPerformed;
+            _playerInputActions.Player.InteractHold.performed -= InteractHoldPerformed;
+            _playerInputActions.Player.InteractHold.canceled -= InteractHoldCanceled;
             _playerInputActions.Player.Disable();
         }       
     }

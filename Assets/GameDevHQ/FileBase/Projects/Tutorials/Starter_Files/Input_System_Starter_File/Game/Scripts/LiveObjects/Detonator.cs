@@ -24,7 +24,7 @@ namespace Game.Scripts.LiveObjects
 
         void InteractableZone_onZoneInteractionComplete(InteractableZone zone)
         {
-            if (_c4Placed != true && zone.GetZoneID() == 1) //placed C4
+            if (_c4Placed != true && zone.GetZoneID() == 1) // placed C4
             {             
                 PlaceC4(zone.GetItems()[0].transform);
                 _c4Placed = true;                
@@ -39,7 +39,7 @@ namespace Game.Scripts.LiveObjects
             _c4.Explode();
             _c4Placed = false;
             _interactableZone[1].CompleteTask(2);
-            Destroy(gameObject);
+            gameObject.SetActive(false);
         }
 
         void PlaceC4(Transform target)

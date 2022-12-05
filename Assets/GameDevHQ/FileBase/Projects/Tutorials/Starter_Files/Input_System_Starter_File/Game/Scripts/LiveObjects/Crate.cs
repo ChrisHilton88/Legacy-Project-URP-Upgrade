@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Interactions;
 using Game.Scripts.UI;
 
 namespace Game.Scripts.LiveObjects
@@ -33,30 +32,37 @@ namespace Game.Scripts.LiveObjects
             _playerInputActions = new PlayerInputActions();
             _playerInputActions.Player.Enable();
             InteractableZone.onZoneInteractionComplete += InteractableZone_onZoneInteractionComplete;
-            _playerInputActions.Player.Interact.performed += BreakCratePerformed;
+            _playerInputActions.Player.InteractTap.performed += BreakCrateTap;
+            _playerInputActions.Player.InteractTap.canceled += BreakCrateHold;
         }
 
-        void BreakCratePerformed(InputAction.CallbackContext context)
+        void BreakCrateTap(InputAction.CallbackContext context)
         {
             if (_interactableZone.InZone && _isReadyToBreak && _interactableZone.GetZoneID() == 6)
             {
-                // When this is on 1, it will become 0 and call BreakSinglePart()
-                if (context.interaction is TapInteraction && _brakeOff.Count > 0)
+                if (_brakeOff.Count > 0)
                 {
-                    Debug.Log("Tappity Tap");
-                    // Break one piece
+                    Debug.Log("Tap crate");
                     BreakSinglePart();
                     StartCoroutine(PunchDelay());
                 }
-                else if (context.interaction is HoldInteraction && _brakeOff.Count > 0)
+            }
+        }
+
+        void BreakCrateHold(InputAction.CallbackContext context)
+        {
+            Debug.Log("Test");
+
+            if (_interactableZone.InZone && _isReadyToBreak && _interactableZone.GetZoneID() == 6)
+            {
+                Debug.Log("Test 2");
+
+                if (_brakeOff.Count > 0)
                 {
-                    Debug.Log("Hooooolding");
-                    // Break multiple pieces
+                    Debug.Log("Hold Crate");
                     BreakMultipleParts();
                     StartCoroutine(PunchDelay());
                 }
-                else
-                    return;
             }
         }
 
@@ -68,8 +74,6 @@ namespace Game.Scripts.LiveObjects
                 _brokenCrate.SetActive(true);
                 _isReadyToBreak = true;
             }
-            // This isn't getting called for multiple break parts, when the final piece is broken.
-            // The crate is being busted and the marker moves forward, but the text to destroy the creat with E still stays.
             else if (_isReadyToBreak && _brakeOff.Count <= 0)
             {
                 _isReadyToBreak = false;
@@ -96,7 +100,6 @@ namespace Game.Scripts.LiveObjects
             else
             {
                 _brakeOff.Clear();
-                Debug.Log("Zero: " + _brakeOff.Count);
             }
         }
 
@@ -134,14 +137,8 @@ namespace Game.Scripts.LiveObjects
                         _crateCollider.enabled = false;
                         _interactableZone.CompleteTask(6);
                         _brakeOff.Clear();
-                        Debug.Log("CurrentZone: " + InteractableZone.CurrentZoneID);
-                        Debug.Log("Completely Busted");
-
-                        // Add here something to turn off the display message
                         UIManager.Instance.DisplayInteractableZoneMessage(false);
-
-                        // Display message still showing when stepping out of marker and in again, even though marker has moved forward.
-
+                        Debug.Log("Completely Busted");
                     }
                 }
             }
@@ -162,6 +159,8 @@ namespace Game.Scripts.LiveObjects
         void OnDisable()
         {
             InteractableZone.onZoneInteractionComplete -= InteractableZone_onZoneInteractionComplete;
+            _playerInputActions.Player.InteractTap.performed -= BreakCrateTap;
+            _playerInputActions.Player.InteractHold.performed -= BreakCrateHold;
         }
     }
 }
