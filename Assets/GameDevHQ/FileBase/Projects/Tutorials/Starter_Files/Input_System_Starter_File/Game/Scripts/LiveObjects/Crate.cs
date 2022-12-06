@@ -51,12 +51,8 @@ namespace Game.Scripts.LiveObjects
 
         void BreakCrateHold(InputAction.CallbackContext context)
         {
-            Debug.Log("Test");
-
             if (_interactableZone.InZone && _isReadyToBreak && _interactableZone.GetZoneID() == 6)
             {
-                Debug.Log("Test 2");
-
                 if (_brakeOff.Count > 0)
                 {
                     Debug.Log("Hold Crate");
@@ -112,12 +108,10 @@ namespace Game.Scripts.LiveObjects
             {
                 _multiplePiecesRNG = _brakeOff.Count;
                 Debug.Log("RNG set to breakoff count: " + _multiplePiecesRNG);
-                CalculateBreakMultiplePieces(_multiplePiecesRNG);
             }
-            else
-            {
-                CalculateBreakMultiplePieces(_multiplePiecesRNG);
-            }
+
+            CalculateBreakMultiplePieces(_multiplePiecesRNG);
+            
         }
 
         void CalculateBreakMultiplePieces(int pieces)
@@ -136,6 +130,8 @@ namespace Game.Scripts.LiveObjects
                         _isReadyToBreak = false;
                         _crateCollider.enabled = false;
                         _interactableZone.CompleteTask(6);
+
+
                         _brakeOff.Clear();
                         UIManager.Instance.DisplayInteractableZoneMessage(false);
                         Debug.Log("Completely Busted");
